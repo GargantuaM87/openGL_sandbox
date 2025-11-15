@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/ayinde-abrams/Documents/my_project/build",
+  "command": "/usr/bin/c++   -g -o CMakeFiles/newProject.dir/src/main.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/main.cpp",
+  "file": "/home/ayinde-abrams/Documents/my_project/src/main.cpp",
+  "output": "CMakeFiles/newProject.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/ayinde-abrams/Documents/my_project/build",
+  "command": "/usr/bin/cc   -g -o CMakeFiles/newProject.dir/src/glad.c.o -c /home/ayinde-abrams/Documents/my_project/src/glad.c",
+  "file": "/home/ayinde-abrams/Documents/my_project/src/glad.c",
+  "output": "CMakeFiles/newProject.dir/src/glad.c.o"
+}
+]
