@@ -2,9 +2,9 @@
 layout (location = 0) in vec3 aPos;
 layout(location = 1) in vec3 aColor;
 
-out vec3 color;
+out vec3 color; // This will output this variable to the fragment shader
 
-uniform float scale;
+uniform float scale; // Is inputted from the CPU to all parallel threads on the GPU
 
 void main()
 {

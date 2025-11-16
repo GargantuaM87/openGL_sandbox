@@ -1,7 +1,9 @@
 #include "../headers/shaderClass.h"
 
+// char* filename represents a character array
+// In C, there is no built-in string class, so this is used to represent strings as well
 std::string get_file_contents(const char* filename) {
-    std::ifstream in(filename, std::ios::binary);
+    std::ifstream in(filename, std::ios::binary); // Creates an input file stream that reads from the file in binary, so automatic conversions don't happen
     if (in) {
         std::string contents;
         in.seekg(0, std::ios::end);
