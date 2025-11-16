@@ -83,10 +83,66 @@ CMakeFiles/newProject.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/newProject.dir/src/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ayinde-abrams/Documents/my_project/src/main.cpp -o CMakeFiles/newProject.dir/src/main.cpp.s
 
+CMakeFiles/newProject.dir/src/shaderClass.cpp.o: CMakeFiles/newProject.dir/flags.make
+CMakeFiles/newProject.dir/src/shaderClass.cpp.o: /home/ayinde-abrams/Documents/my_project/src/shaderClass.cpp
+CMakeFiles/newProject.dir/src/shaderClass.cpp.o: CMakeFiles/newProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/newProject.dir/src/shaderClass.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/newProject.dir/src/shaderClass.cpp.o -MF CMakeFiles/newProject.dir/src/shaderClass.cpp.o.d -o CMakeFiles/newProject.dir/src/shaderClass.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/shaderClass.cpp
+
+CMakeFiles/newProject.dir/src/shaderClass.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/newProject.dir/src/shaderClass.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ayinde-abrams/Documents/my_project/src/shaderClass.cpp > CMakeFiles/newProject.dir/src/shaderClass.cpp.i
+
+CMakeFiles/newProject.dir/src/shaderClass.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/newProject.dir/src/shaderClass.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ayinde-abrams/Documents/my_project/src/shaderClass.cpp -o CMakeFiles/newProject.dir/src/shaderClass.cpp.s
+
+CMakeFiles/newProject.dir/src/VAO.cpp.o: CMakeFiles/newProject.dir/flags.make
+CMakeFiles/newProject.dir/src/VAO.cpp.o: /home/ayinde-abrams/Documents/my_project/src/VAO.cpp
+CMakeFiles/newProject.dir/src/VAO.cpp.o: CMakeFiles/newProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/newProject.dir/src/VAO.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/newProject.dir/src/VAO.cpp.o -MF CMakeFiles/newProject.dir/src/VAO.cpp.o.d -o CMakeFiles/newProject.dir/src/VAO.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/VAO.cpp
+
+CMakeFiles/newProject.dir/src/VAO.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/newProject.dir/src/VAO.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ayinde-abrams/Documents/my_project/src/VAO.cpp > CMakeFiles/newProject.dir/src/VAO.cpp.i
+
+CMakeFiles/newProject.dir/src/VAO.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/newProject.dir/src/VAO.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ayinde-abrams/Documents/my_project/src/VAO.cpp -o CMakeFiles/newProject.dir/src/VAO.cpp.s
+
+CMakeFiles/newProject.dir/src/VBO.cpp.o: CMakeFiles/newProject.dir/flags.make
+CMakeFiles/newProject.dir/src/VBO.cpp.o: /home/ayinde-abrams/Documents/my_project/src/VBO.cpp
+CMakeFiles/newProject.dir/src/VBO.cpp.o: CMakeFiles/newProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/newProject.dir/src/VBO.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/newProject.dir/src/VBO.cpp.o -MF CMakeFiles/newProject.dir/src/VBO.cpp.o.d -o CMakeFiles/newProject.dir/src/VBO.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/VBO.cpp
+
+CMakeFiles/newProject.dir/src/VBO.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/newProject.dir/src/VBO.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ayinde-abrams/Documents/my_project/src/VBO.cpp > CMakeFiles/newProject.dir/src/VBO.cpp.i
+
+CMakeFiles/newProject.dir/src/VBO.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/newProject.dir/src/VBO.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ayinde-abrams/Documents/my_project/src/VBO.cpp -o CMakeFiles/newProject.dir/src/VBO.cpp.s
+
+CMakeFiles/newProject.dir/src/EBO.cpp.o: CMakeFiles/newProject.dir/flags.make
+CMakeFiles/newProject.dir/src/EBO.cpp.o: /home/ayinde-abrams/Documents/my_project/src/EBO.cpp
+CMakeFiles/newProject.dir/src/EBO.cpp.o: CMakeFiles/newProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/newProject.dir/src/EBO.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/newProject.dir/src/EBO.cpp.o -MF CMakeFiles/newProject.dir/src/EBO.cpp.o.d -o CMakeFiles/newProject.dir/src/EBO.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/EBO.cpp
+
+CMakeFiles/newProject.dir/src/EBO.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/newProject.dir/src/EBO.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ayinde-abrams/Documents/my_project/src/EBO.cpp > CMakeFiles/newProject.dir/src/EBO.cpp.i
+
+CMakeFiles/newProject.dir/src/EBO.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/newProject.dir/src/EBO.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ayinde-abrams/Documents/my_project/src/EBO.cpp -o CMakeFiles/newProject.dir/src/EBO.cpp.s
+
 CMakeFiles/newProject.dir/src/glad.c.o: CMakeFiles/newProject.dir/flags.make
 CMakeFiles/newProject.dir/src/glad.c.o: /home/ayinde-abrams/Documents/my_project/src/glad.c
 CMakeFiles/newProject.dir/src/glad.c.o: CMakeFiles/newProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/newProject.dir/src/glad.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/newProject.dir/src/glad.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/newProject.dir/src/glad.c.o -MF CMakeFiles/newProject.dir/src/glad.c.o.d -o CMakeFiles/newProject.dir/src/glad.c.o -c /home/ayinde-abrams/Documents/my_project/src/glad.c
 
 CMakeFiles/newProject.dir/src/glad.c.i: cmake_force
@@ -100,18 +156,26 @@ CMakeFiles/newProject.dir/src/glad.c.s: cmake_force
 # Object files for target newProject
 newProject_OBJECTS = \
 "CMakeFiles/newProject.dir/src/main.cpp.o" \
+"CMakeFiles/newProject.dir/src/shaderClass.cpp.o" \
+"CMakeFiles/newProject.dir/src/VAO.cpp.o" \
+"CMakeFiles/newProject.dir/src/VBO.cpp.o" \
+"CMakeFiles/newProject.dir/src/EBO.cpp.o" \
 "CMakeFiles/newProject.dir/src/glad.c.o"
 
 # External object files for target newProject
 newProject_EXTERNAL_OBJECTS =
 
 newProject: CMakeFiles/newProject.dir/src/main.cpp.o
+newProject: CMakeFiles/newProject.dir/src/shaderClass.cpp.o
+newProject: CMakeFiles/newProject.dir/src/VAO.cpp.o
+newProject: CMakeFiles/newProject.dir/src/VBO.cpp.o
+newProject: CMakeFiles/newProject.dir/src/EBO.cpp.o
 newProject: CMakeFiles/newProject.dir/src/glad.c.o
 newProject: CMakeFiles/newProject.dir/build.make
 newProject: /usr/lib/x86_64-linux-gnu/libGLX.so
 newProject: /usr/lib/x86_64-linux-gnu/libOpenGL.so
 newProject: CMakeFiles/newProject.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable newProject"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable newProject"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/newProject.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

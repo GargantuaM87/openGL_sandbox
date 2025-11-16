@@ -1,8 +1,16 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/newProject.dir/src/EBO.cpp.o"
+  "CMakeFiles/newProject.dir/src/EBO.cpp.o.d"
+  "CMakeFiles/newProject.dir/src/VAO.cpp.o"
+  "CMakeFiles/newProject.dir/src/VAO.cpp.o.d"
+  "CMakeFiles/newProject.dir/src/VBO.cpp.o"
+  "CMakeFiles/newProject.dir/src/VBO.cpp.o.d"
   "CMakeFiles/newProject.dir/src/glad.c.o"
   "CMakeFiles/newProject.dir/src/glad.c.o.d"
   "CMakeFiles/newProject.dir/src/main.cpp.o"
   "CMakeFiles/newProject.dir/src/main.cpp.o.d"
+  "CMakeFiles/newProject.dir/src/shaderClass.cpp.o"
+  "CMakeFiles/newProject.dir/src/shaderClass.cpp.o.d"
   "newProject"
   "newProject.pdb"
 )

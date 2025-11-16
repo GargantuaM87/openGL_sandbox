@@ -177,4 +177,15 @@ CMakeFiles/newProject.dir/src/main.cpp.o: \
  /usr/include/c++/13/tr1/modified_bessel_func.tcc \
  /usr/include/c++/13/tr1/poly_hermite.tcc \
  /usr/include/c++/13/tr1/poly_laguerre.tcc \
- /usr/include/c++/13/tr1/riemann_zeta.tcc
+ /usr/include/c++/13/tr1/riemann_zeta.tcc \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/shaderClass.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/../src/glad.h \
+ /usr/include/c++/13/fstream /usr/include/c++/13/bits/codecvt.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
+ /usr/include/c++/13/bits/fstream.tcc /usr/include/c++/13/sstream \
+ /usr/include/c++/13/bits/sstream.tcc \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/EBO.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/VBO.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/VAO.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/VBO.h

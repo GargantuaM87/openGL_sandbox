@@ -3,19 +3,10 @@
 #include <GLFW/glfw3.h>
 #include <cmath>
 
-const char* vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"void main()\n"
-"{\n"
-"    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"}\0";
-
-const char* fragmentShaderSource = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"void main()\n"
-"{\n"
-"    FragColor = vec4(0.8f, 0.3f, 0.02f, 1.0f);\n"
-"}\n\0";
+#include "../headers/shaderClass.h"
+#include "../headers/EBO.h"
+#include "../headers/VBO.h"
+#include "../headers/VAO.h"
 
 int main(int, char**){
    // Storing our values of each vertex in our coordinate space
@@ -55,76 +46,49 @@ int main(int, char**){
         glfwTerminate();
         return -1;
    }
-   // This is an unsigned-int 
-   // glShaderSource replaces the source code of vertexShader with the source code of vertexShaderSource (its memory address)
-   // GPU can't understand source code, so we compile the shader as well
-   GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-   glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-   glCompileShader(vertexShader);
+   // Parses the fragment and vertex shader files and wraps them into a shader program
+   // The files are compiled to an intermediary language then translated into specific instructions for the GPU
+   Shader shaderProgram("../assets/shaders/default.vert", "../assets/shaders/default.frag");
+   
+   // Vertex Array Buffer
+   // Stores pointers to VBOs
+   // Defines how we can access our VBOs and their attributes
+   VAO VAO1;
+   VAO1.Bind(); // Tells OpenGL to activate this VAO
 
-   GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-   glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-   glCompileShader(fragmentShader);
+   // Vertex Buffer Object
+   // Contains vertex attributes such as position and color
+   VBO VBO1(vertices, sizeof(vertices));
+   EBO EBO1(indices, sizeof(indices));
 
-   // Wrap the fragment and vertex shaders into a shader program
-   GLuint shaderProgram = glCreateProgram();
-   glAttachShader(shaderProgram, vertexShader);
-   glAttachShader(shaderProgram, fragmentShader);
-   glLinkProgram(shaderProgram);
+   VAO1.LinkVBO(VBO1, 0); // Basically create a pointer to the VBO
+   VAO1.Unbind();
+   VBO1.Unbind();
+   EBO1.Unbind();
 
-   // Delete the shaders since we now have them in our shader program (memory management!)
-   glDeleteShader(vertexShader);
-   glDeleteShader(fragmentShader);
-
-   // Sending stuff between the GPU and CPU is slow, so we want to send data through big batches called buffers
-   GLuint VAO, VBO, EBO;
-
-   // Generate the VAO and VBO with only 1 object each
-   glGenVertexArrays(1, &VAO);
-   glGenBuffers(1, &VBO);
-   glGenBuffers(1, &EBO);
-
-   glBindVertexArray(VAO);
-
-   // Bind the VBO specifying its a GL_ARRAY_BUFFER
-   glBindBuffer(GL_ARRAY_BUFFER, VBO);
-   // Introduce the vertices into the VBO
-   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-   // Necessary for OpenGL to read the VAO
-   // Way of communicating with a vertex shader from the outside
-   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-   glEnableVertexAttribArray(0);
-
-   // Bind both the VBO and VAO to 0
-   glBindBuffer(GL_ARRAY_BUFFER, 0);
-   glBindVertexArray(0);
-
-   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-   // Specify the color of the background
-   glClearColor(0.25f, 0.5f, 0.75f, 1.0f);
 
    while(!glfwWindowShouldClose(window)) {
+        // Specify color of background
         glClearColor(0.25f, 0.5f, 0.75f, 1.0f);
+        // Clean the back buffer and assign the new color to it
         glClear(GL_COLOR_BUFFER_BIT);
-        glUseProgram(shaderProgram);
-        glBindVertexArray(VAO);
+        // Tell OpenGL which shader program we want to use
+        shaderProgram.Activate();
+        // Bind the VAO so OpenGL knows to use it
+        VAO1.Bind();
+        // Draw primitives, number of indices, datatype of indices, index of indices
         glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+        // Swap back buffer with front buffer
         glfwSwapBuffers(window);
-
         // Makes sure our window is responsive (such as resizing it and moving it)
         glfwPollEvents();
    }
 
    // Deleting objects (memory management!)
-   glDeleteVertexArrays(1, &VAO);
-   glDeleteBuffers(1, &VBO);
-   glDeleteBuffers(1, &EBO);
-   glDeleteProgram(shaderProgram);
+   VAO1.Delete();
+   VBO1.Delete();
+   EBO1.Delete();
+   shaderProgram.Delete();
 
    glfwTerminate();
    return 0;

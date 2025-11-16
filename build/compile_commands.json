@@ -7,6 +7,30 @@
 },
 {
   "directory": "/home/ayinde-abrams/Documents/my_project/build",
+  "command": "/usr/bin/c++   -g -o CMakeFiles/newProject.dir/src/shaderClass.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/shaderClass.cpp",
+  "file": "/home/ayinde-abrams/Documents/my_project/src/shaderClass.cpp",
+  "output": "CMakeFiles/newProject.dir/src/shaderClass.cpp.o"
+},
+{
+  "directory": "/home/ayinde-abrams/Documents/my_project/build",
+  "command": "/usr/bin/c++   -g -o CMakeFiles/newProject.dir/src/VAO.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/VAO.cpp",
+  "file": "/home/ayinde-abrams/Documents/my_project/src/VAO.cpp",
+  "output": "CMakeFiles/newProject.dir/src/VAO.cpp.o"
+},
+{
+  "directory": "/home/ayinde-abrams/Documents/my_project/build",
+  "command": "/usr/bin/c++   -g -o CMakeFiles/newProject.dir/src/VBO.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/VBO.cpp",
+  "file": "/home/ayinde-abrams/Documents/my_project/src/VBO.cpp",
+  "output": "CMakeFiles/newProject.dir/src/VBO.cpp.o"
+},
+{
+  "directory": "/home/ayinde-abrams/Documents/my_project/build",
+  "command": "/usr/bin/c++   -g -o CMakeFiles/newProject.dir/src/EBO.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/EBO.cpp",
+  "file": "/home/ayinde-abrams/Documents/my_project/src/EBO.cpp",
+  "output": "CMakeFiles/newProject.dir/src/EBO.cpp.o"
+},
+{
+  "directory": "/home/ayinde-abrams/Documents/my_project/build",
   "command": "/usr/bin/cc   -g -o CMakeFiles/newProject.dir/src/glad.c.o -c /home/ayinde-abrams/Documents/my_project/src/glad.c",
   "file": "/home/ayinde-abrams/Documents/my_project/src/glad.c",
   "output": "CMakeFiles/newProject.dir/src/glad.c.o"

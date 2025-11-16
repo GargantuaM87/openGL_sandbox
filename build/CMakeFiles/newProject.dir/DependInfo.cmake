@@ -9,7 +9,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/ayinde-abrams/Documents/my_project/src/glad.c" "CMakeFiles/newProject.dir/src/glad.c.o" "gcc" "CMakeFiles/newProject.dir/src/glad.c.o.d"
+  "/home/ayinde-abrams/Documents/my_project/src/EBO.cpp" "CMakeFiles/newProject.dir/src/EBO.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/EBO.cpp.o.d"
+  "/home/ayinde-abrams/Documents/my_project/src/VAO.cpp" "CMakeFiles/newProject.dir/src/VAO.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/VAO.cpp.o.d"
+  "/home/ayinde-abrams/Documents/my_project/src/VBO.cpp" "CMakeFiles/newProject.dir/src/VBO.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/VBO.cpp.o.d"
   "/home/ayinde-abrams/Documents/my_project/src/main.cpp" "CMakeFiles/newProject.dir/src/main.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/main.cpp.o.d"
+  "/home/ayinde-abrams/Documents/my_project/src/shaderClass.cpp" "CMakeFiles/newProject.dir/src/shaderClass.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/shaderClass.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
