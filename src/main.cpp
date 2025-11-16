@@ -11,13 +11,13 @@
 int main(int, char**){
    // Storing our values of each vertex in our coordinate space
    GLfloat vertices[] = 
-   {
-     -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Bottom left corner of triangle
-     0.5, -0.5f * float(sqrt(3)) / 3, 0.0f,  // Bottom right corner of triangle
-     0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.00f, // Top middle of triangle
-     -0.5f / 2, 0.5 * float(sqrt(3)) / 6, 0.00, // Inner left
-     0.5f / 2, 0.5 * float(sqrt(3)) / 6, 0.00,  // Inner right
-     0.0f, -0.5 * float(sqrt(3)) / 3, 0.00f // Inner down
+   {         // POSITIONS                           // COLORS
+     -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,    0.8f, 0.3f, 0.02f,   // Bottom left corner of triangle
+     0.5, -0.5f * float(sqrt(3)) / 3, 0.0f,      0.8f, 0.3f, 0.02f,  // Bottom right corner of triangle
+     0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.00f, 1.0f, 6.0f, 0.32f,  // Top middle of triangle
+     -0.5f / 2, 0.5 * float(sqrt(3)) / 6, 0.00,  0.9f, 0.45, 0.17f,  // Inner left
+     0.5f / 2, 0.5 * float(sqrt(3)) / 6, 0.00,   0.9f, 0.45f, 0.17f,  // Inner right
+     0.0f, -0.5 * float(sqrt(3)) / 3, 0.00f,     0.8f, 0.3f,  0.02f   // Inner down
    };
 
    // Index Buffer
@@ -61,10 +61,13 @@ int main(int, char**){
    VBO VBO1(vertices, sizeof(vertices));
    EBO EBO1(indices, sizeof(indices));
 
-   VAO1.LinkVBO(VBO1, 0); // Basically create a pointer to the VBO
+   VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0); // Basically create a pointer to the VBO
+   VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
    VAO1.Unbind();
    VBO1.Unbind();
    EBO1.Unbind();
+
+   GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
 
 
    while(!glfwWindowShouldClose(window)) {
@@ -74,6 +77,7 @@ int main(int, char**){
         glClear(GL_COLOR_BUFFER_BIT);
         // Tell OpenGL which shader program we want to use
         shaderProgram.Activate();
+        glUniform1f(uniID, 0.5f);
         // Bind the VAO so OpenGL knows to use it
         VAO1.Bind();
         // Draw primitives, number of indices, datatype of indices, index of indices
