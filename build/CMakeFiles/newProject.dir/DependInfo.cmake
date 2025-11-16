@@ -14,6 +14,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/ayinde-abrams/Documents/my_project/src/VBO.cpp" "CMakeFiles/newProject.dir/src/VBO.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/VBO.cpp.o.d"
   "/home/ayinde-abrams/Documents/my_project/src/main.cpp" "CMakeFiles/newProject.dir/src/main.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/main.cpp.o.d"
   "/home/ayinde-abrams/Documents/my_project/src/shaderClass.cpp" "CMakeFiles/newProject.dir/src/shaderClass.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/shaderClass.cpp.o.d"
+  "/home/ayinde-abrams/Documents/my_project/src/stb.cpp" "CMakeFiles/newProject.dir/src/stb.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/stb.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

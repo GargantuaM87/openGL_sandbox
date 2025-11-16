@@ -11,7 +11,8 @@ src/VAO.cpp
 src/VBO.cpp
 src/EBO.cpp
 src/glad.h 
-src/glad.c)
+src/glad.c
+src/stb.cpp)
 
 target_link_libraries(newProject glfw OpenGL::GL)
 

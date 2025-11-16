@@ -188,4 +188,6 @@ CMakeFiles/newProject.dir/src/main.cpp.o: \
  /home/ayinde-abrams/Documents/my_project/src/../headers/EBO.h \
  /home/ayinde-abrams/Documents/my_project/src/../headers/VBO.h \
  /home/ayinde-abrams/Documents/my_project/src/../headers/VAO.h \
- /home/ayinde-abrams/Documents/my_project/src/../headers/VBO.h
+ /home/ayinde-abrams/Documents/my_project/src/../headers/VBO.h \
+ /home/ayinde-abrams/Documents/my_project/src/../include/stb/stb_image.h \
+ /usr/include/c++/13/stdlib.h
