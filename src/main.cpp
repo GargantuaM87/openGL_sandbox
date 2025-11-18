@@ -8,6 +8,7 @@
 #include "../headers/EBO.h"
 #include "../headers/VBO.h"
 #include "../headers/VAO.h"
+#include "../headers/texture.h"
 #include "../include/stb/stb_image.h"
 
 
@@ -68,36 +69,8 @@ int main(int, char**){
    VBO1.Unbind();
    EBO1.Unbind();
 
-   GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
-
-   // Texture
-   int widthImg, heightImg, numColCh;
-   unsigned char* bytes = stbi_load("../brick_12-512x512.png", &widthImg, &heightImg, &numColCh, STBI_rgb_alpha);
-
-   GLuint texture;
-   glGenTextures(1, &texture);
-   glActiveTexture(GL_TEXTURE0);
-   glBindTexture(GL_TEXTURE_2D, texture);
-
-   // Changing the texture's parameters
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-   // float flatColor[] = {1.0f, 1.0f, 1.0f, 1.0f};
-   // glTextParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, flatColor);
-
-   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthImg, heightImg, 0, GL_RGBA, GL_UNSIGNED_BYTE, bytes);
-   glGenerateMipmap(GL_TEXTURE_2D);
-
-   stbi_image_free(bytes);
-   glBindTexture(GL_TEXTURE_2D, 0);
-
-   GLuint tex0Uni = glGetUniformLocation(shaderProgram.ID, "tex0");
-   shaderProgram.Activate();
-   glUniform1i(tex0Uni, 0);
+   Texture myTex("../brick_12-512x512.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+   myTex.texUnit(shaderProgram, "tex0", 0);
 
    while(!glfwWindowShouldClose(window)) {
         // Specify color of background
@@ -106,8 +79,7 @@ int main(int, char**){
         glClear(GL_COLOR_BUFFER_BIT);
         // Tell OpenGL which shader program we want to use
         shaderProgram.Activate();
-        glUniform1f(uniID, 0.5f);
-        glBindTexture(GL_TEXTURE_2D, texture);
+        myTex.Bind();
         // Bind the VAO so OpenGL knows to use it
         VAO1.Bind();
         // Draw primitives, number of indices, datatype of indices, index of indices
@@ -123,8 +95,7 @@ int main(int, char**){
    VBO1.Delete();
    EBO1.Delete();
    shaderProgram.Delete();
-
-   glDeleteTextures(1, &texture);
+   myTex.Delete();
 
    glfwTerminate();
    return 0;

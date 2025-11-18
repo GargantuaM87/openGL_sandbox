@@ -13,6 +13,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/newProject.dir/src/shaderClass.cpp.o.d"
   "CMakeFiles/newProject.dir/src/stb.cpp.o"
   "CMakeFiles/newProject.dir/src/stb.cpp.o.d"
+  "CMakeFiles/newProject.dir/src/texture.cpp.o"
+  "CMakeFiles/newProject.dir/src/texture.cpp.o.d"
   "newProject"
   "newProject.pdb"
 )
