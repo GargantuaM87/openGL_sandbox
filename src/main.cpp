@@ -8,6 +8,7 @@
 #include "../headers/VBO.h"
 #include "../headers/VAO.h"
 #include "../headers/texture.h"
+#include "../headers/camera.h"
 
 #include "../include/stb/stb_image.h"
 #include "../include/glm/glm.hpp"
@@ -81,11 +82,9 @@ int main(int, char**){
    Texture myTex("../brick_12-512x512.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
    myTex.texUnit(shaderProgram, "tex0", 0);
 
-   float rotation = 0.0f;
-   double prevTime = glfwGetTime();
-   double frameRate = 1.0 / 60.0;
-
    glEnable(GL_DEPTH_TEST);
+
+   Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
    while(!glfwWindowShouldClose(window)) {
         // Specify color of background
@@ -95,34 +94,8 @@ int main(int, char**){
         // Tell OpenGL which shader program we want to use
         shaderProgram.Activate();
 
-        double crntTime = glfwGetTime(); // Gets the current GLFW time in seconds
-        double elapsedTime = crntTime - prevTime;  // Elapsed time since the previous time to the current time
-        if(elapsedTime >= frameRate) // Limits the frame rate to 60 frames per second
-        {
-          rotation += 0.5f;
-          prevTime = crntTime;
-        }
-
-        // Our Model-View-Projection (MVP) matrices
-        glm::mat4 model = glm::mat4(1.0f);
-        glm::mat4 view = glm::mat4(1.0f);
-        glm::mat4 proj = glm::mat4(1.0f);
-
-        // Builds a model matrix that rotates our vertices in the Y direction in radians
-        model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
-        // Builds a view matrix that translates our vertices from world space to view space
-        view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.0f));
-        // Creates a matrix for a perspective-view fustrum with an assigned aspect ratio and near/far clip planes
-        proj = glm::perspective(glm::radians(45.0f), (float)(width / height), 0.1f, 100.0f);
-
-        int modelLoc = glGetUniformLocation(shaderProgram.ID, "model"); // Returns int that represents this uniform's location in our passed in program
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        int viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-        int projLoc = glGetUniformLocation(shaderProgram.ID, "proj");
-        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
-
-
+        camera.Inputs(window);
+        camera.Matrix(45.0f, 0.1f, 100.0f, shaderProgram, "camMatrix");
 
         myTex.Bind();
         // Bind the VAO so OpenGL knows to use it

@@ -12,6 +12,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/ayinde-abrams/Documents/my_project/src/EBO.cpp" "CMakeFiles/newProject.dir/src/EBO.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/EBO.cpp.o.d"
   "/home/ayinde-abrams/Documents/my_project/src/VAO.cpp" "CMakeFiles/newProject.dir/src/VAO.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/VAO.cpp.o.d"
   "/home/ayinde-abrams/Documents/my_project/src/VBO.cpp" "CMakeFiles/newProject.dir/src/VBO.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/VBO.cpp.o.d"
+  "/home/ayinde-abrams/Documents/my_project/src/camera.cpp" "CMakeFiles/newProject.dir/src/camera.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/camera.cpp.o.d"
   "/home/ayinde-abrams/Documents/my_project/src/main.cpp" "CMakeFiles/newProject.dir/src/main.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/main.cpp.o.d"
   "/home/ayinde-abrams/Documents/my_project/src/shaderClass.cpp" "CMakeFiles/newProject.dir/src/shaderClass.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/shaderClass.cpp.o.d"
   "/home/ayinde-abrams/Documents/my_project/src/stb.cpp" "CMakeFiles/newProject.dir/src/stb.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/stb.cpp.o.d"

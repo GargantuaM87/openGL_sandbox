@@ -46,5 +46,11 @@
   "command": "/usr/bin/c++   -g -o CMakeFiles/newProject.dir/src/texture.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/texture.cpp",
   "file": "/home/ayinde-abrams/Documents/my_project/src/texture.cpp",
   "output": "CMakeFiles/newProject.dir/src/texture.cpp.o"
+},
+{
+  "directory": "/home/ayinde-abrams/Documents/my_project/build",
+  "command": "/usr/bin/c++   -g -o CMakeFiles/newProject.dir/src/camera.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/camera.cpp",
+  "file": "/home/ayinde-abrams/Documents/my_project/src/camera.cpp",
+  "output": "CMakeFiles/newProject.dir/src/camera.cpp.o"
 }
 ]

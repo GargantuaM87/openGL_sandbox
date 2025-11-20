@@ -13,7 +13,8 @@ src/EBO.cpp
 src/glad.h 
 src/glad.c
 src/stb.cpp
-src/texture.cpp)
+src/texture.cpp
+src/camera.cpp)
 
 target_link_libraries(newProject glfw OpenGL::GL)
 

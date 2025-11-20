@@ -7,13 +7,11 @@ out vec2 texCoord; // Output the coordinates of our texture
 out vec3 color; // This will output this variable to the fragment shader
 
  // Uniforms are inputted from the CPU to all parallel threads on the GPU
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 proj;
+uniform mat4 camMatrix;
 
 void main()
 {
-    gl_Position = proj * view * model * vec4(aPos, 1.0);
+    gl_Position = camMatrix * vec4(aPos, 1.0);
     color = aColor;
     texCoord = aTex;
 }
