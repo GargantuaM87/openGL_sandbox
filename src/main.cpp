@@ -133,11 +133,18 @@ int main(int, char**){
 
    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
+   float deltaTime = 0.0f;
+   float lastFrame = 0.0f;
+
    while(!glfwWindowShouldClose(window)) {
         // Specify color of background
         glClearColor(0.0f, 0.0f, 0.30f, 1.0f);
         // Clean the back buffer and assign the new color to it and update the depth buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        float crntFrame = glfwGetTime();
+        deltaTime = crntFrame - lastFrame;
+        lastFrame = crntFrame;
 
         // Tell OpenGL which shader program we want to use
         shaderProgram.Activate();
@@ -170,6 +177,10 @@ int main(int, char**){
         camera.Matrix(45.0f, 0.1f, 100.0f, lightSourceProgram, "camMatrix");
 
         GLuint lightModelLoc = glGetUniformLocation(lightSourceProgram.ID, "model");
+
+        // Updating the light's position over time
+        lightPos.x = 1.0f + sin(glfwGetTime() * 2.0f);
+        lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
 
         // Create a model matrix to translate and scale our second object 
         glm::mat4 lightModel = glm::mat4(1.0f);
