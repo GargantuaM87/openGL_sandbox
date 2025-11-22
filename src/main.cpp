@@ -107,13 +107,13 @@ int main(int, char**){
   // EBO EBO1(indices, sizeof(indices)); // Responsible for storing indices on the GPU and drawing them in a specific order
    // Creating a second geometrical object 
    VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0); // Basically create a pointer to the VBO (position)
-   VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
+   VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 
    // Creating our second VAO for another object
    VAO VAO2;
    VAO2.Bind();
   // EBO EBO2(indices, sizeof(indices));
-   VAO2.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float))); // We reuse the first VBO since it already has the attributes we want
+   VAO2.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0); // We reuse the first VBO since it already has the attributes we want
 
    VAO1.Unbind();
    VAO2.Unbind();
