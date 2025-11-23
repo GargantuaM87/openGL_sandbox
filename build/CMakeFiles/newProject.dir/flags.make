@@ -5,13 +5,13 @@
 # compile CXX with /usr/bin/c++
 C_DEFINES = 
 
-C_INCLUDES = 
+C_INCLUDES = -I/home/ayinde-abrams/Documents/my_project -I/home/ayinde-abrams/Documents/my_project/headers -I/home/ayinde-abrams/Documents/my_project/imgui -I/home/ayinde-abrams/Documents/my_project/include
 
 C_FLAGS = -g
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/home/ayinde-abrams/Documents/my_project -I/home/ayinde-abrams/Documents/my_project/headers -I/home/ayinde-abrams/Documents/my_project/imgui -I/home/ayinde-abrams/Documents/my_project/include
 
 CXX_FLAGS = -g
 

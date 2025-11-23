@@ -1,4 +1,7 @@
 #include <iostream>
+#include "../headers/imgui/imgui.h"
+#include "../headers/imgui/imgui_impl_glfw.h"
+#include "../headers/imgui/imgui_impl_opengl3.h"
 #include "glad.h"
 #include <GLFW/glfw3.h>
 #include <cmath>
@@ -136,11 +139,26 @@ int main(int, char**){
    float deltaTime = 0.0f;
    float lastFrame = 0.0f;
 
+   IMGUI_CHECKVERSION();
+   ImGui::CreateContext();
+   ImGuiIO& io = ImGui::GetIO(); (void)io;
+   ImGui::StyleColorsDark();
+   ImGui_ImplGlfw_InitForOpenGL(window, true);
+   ImGui_ImplOpenGL3_Init("#version 330");
+
+   bool drawTriangle = true;
+
+   // Main Render Loop
    while(!glfwWindowShouldClose(window)) {
         // Specify color of background
         glClearColor(0.0f, 0.0f, 0.30f, 1.0f);
         // Clean the back buffer and assign the new color to it and update the depth buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
 
         float crntFrame = glfwGetTime();
         deltaTime = crntFrame - lastFrame;
@@ -148,8 +166,9 @@ int main(int, char**){
 
         // Tell OpenGL which shader program we want to use
         shaderProgram.Activate();
-
-        camera.Inputs(window);
+        
+        if(!io.WantCaptureMouse)
+          camera.Inputs(window);
         camera.Matrix(45.0f, 0.1f, 100.0f, shaderProgram, "camMatrix");
 
         // Uniform Assignments
@@ -168,7 +187,8 @@ int main(int, char**){
         // Bind the VAO so OpenGL knows to use it
         VAO1.Bind();
         // Draw primitives, number of indices, datatype of indices, index of indices
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        if(drawTriangle)
+          glDrawArrays(GL_TRIANGLES, 0, 36);
         
         // Activate our second shader program
         // Objects drawn under this activation will be using this shader
@@ -191,12 +211,26 @@ int main(int, char**){
 
         // Do the same thing for the second VAO
         VAO2.Bind();
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        if(drawTriangle)
+          glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        ImGui::Begin("My name is window, ImGUI window");
+        ImGui::Text("Hello there adventurer!");
+        ImGui::Checkbox("Draw Triangle", &drawTriangle);
+        ImGui::End();
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         // Swap back buffer with front buffer
         glfwSwapBuffers(window);
         // Makes sure our window is responsive (such as resizing it and moving it)
         glfwPollEvents();
    }
+
+   ImGui_ImplOpenGL3_Shutdown();
+   ImGui_ImplGlfw_Shutdown();
+   ImGui::DestroyContext();
 
    // Deleting objects (memory management!)
    VAO1.Delete();

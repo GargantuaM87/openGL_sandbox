@@ -150,6 +150,12 @@ CMakeFiles/newProject.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
  /usr/include/c++/13/bits/istream.tcc \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/imgui/imgui.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/imgui/imconfig.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/float.h /usr/include/string.h \
+ /usr/include/strings.h /usr/include/assert.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/imgui/imgui_impl_glfw.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/imgui/imgui_impl_opengl3.h \
  /home/ayinde-abrams/Documents/my_project/src/glad.h \
  /usr/include/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
@@ -197,7 +203,7 @@ CMakeFiles/newProject.dir/src/main.cpp.o: \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/glm.hpp \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/detail/_fixes.hpp \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/detail/setup.hpp \
- /usr/include/c++/13/cassert /usr/include/assert.h \
+ /usr/include/c++/13/cassert \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/detail/../simd/platform.h \
  /usr/include/c++/13/cstdint /usr/include/c++/13/climits \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
@@ -208,7 +214,6 @@ CMakeFiles/newProject.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
  /usr/include/x86_64-linux-gnu/bits/uio_lim.h /usr/include/c++/13/cfloat \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/float.h \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/fwd.hpp \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/detail/qualifier.hpp \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/detail/setup.hpp \
@@ -415,7 +420,7 @@ CMakeFiles/newProject.dir/src/main.cpp.o: \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtc/../gtc/../ext/vector_int1_sized.hpp \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtc/../gtc/../ext/vector_uint1.hpp \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtc/../gtc/../ext/vector_uint1_sized.hpp \
- /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
+ /usr/include/c++/13/cstring \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtc/type_ptr.inl \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtx/rotate_vector.hpp \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtx/../gtx/transform.hpp \

@@ -14,7 +14,20 @@ src/glad.h
 src/glad.c
 src/stb.cpp
 src/texture.cpp
-src/camera.cpp)
+src/camera.cpp
+src/imgui/imgui_demo.cpp
+src/imgui/imgui_draw.cpp
+src/imgui/imgui_impl_glfw.cpp
+src/imgui/imgui_impl_opengl3.cpp
+src/imgui/imgui_tables.cpp
+src/imgui/imgui_widgets.cpp
+src/imgui/imgui.cpp)
+
+target_include_directories(newProject PRIVATE
+	${CMAKE_CURRENT_SOURCE_DIR}
+	${CMAKE_CURRENT_SOURCE_DIR}/headers
+	${CMAKE_CURRENT_SOURCE_DIR}/imgui
+	${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
 target_link_libraries(newProject glfw OpenGL::GL)
-

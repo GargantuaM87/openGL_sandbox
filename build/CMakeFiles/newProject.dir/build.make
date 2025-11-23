@@ -195,6 +195,104 @@ CMakeFiles/newProject.dir/src/camera.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/newProject.dir/src/camera.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ayinde-abrams/Documents/my_project/src/camera.cpp -o CMakeFiles/newProject.dir/src/camera.cpp.s
 
+CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.o: CMakeFiles/newProject.dir/flags.make
+CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.o: /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_demo.cpp
+CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.o: CMakeFiles/newProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.o -MF CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.o.d -o CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_demo.cpp
+
+CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_demo.cpp > CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.i
+
+CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_demo.cpp -o CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.s
+
+CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.o: CMakeFiles/newProject.dir/flags.make
+CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.o: /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_draw.cpp
+CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.o: CMakeFiles/newProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.o -MF CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.o.d -o CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_draw.cpp
+
+CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_draw.cpp > CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.i
+
+CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_draw.cpp -o CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.s
+
+CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.o: CMakeFiles/newProject.dir/flags.make
+CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.o: /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_impl_glfw.cpp
+CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.o: CMakeFiles/newProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.o -MF CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.o.d -o CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_impl_glfw.cpp
+
+CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_impl_glfw.cpp > CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.i
+
+CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_impl_glfw.cpp -o CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.s
+
+CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.o: CMakeFiles/newProject.dir/flags.make
+CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.o: /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_impl_opengl3.cpp
+CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.o: CMakeFiles/newProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.o -MF CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.o.d -o CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_impl_opengl3.cpp
+
+CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_impl_opengl3.cpp > CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.i
+
+CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_impl_opengl3.cpp -o CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.s
+
+CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.o: CMakeFiles/newProject.dir/flags.make
+CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.o: /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_tables.cpp
+CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.o: CMakeFiles/newProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.o -MF CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.o.d -o CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_tables.cpp
+
+CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_tables.cpp > CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.i
+
+CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_tables.cpp -o CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.s
+
+CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.o: CMakeFiles/newProject.dir/flags.make
+CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.o: /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_widgets.cpp
+CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.o: CMakeFiles/newProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.o -MF CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.o.d -o CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_widgets.cpp
+
+CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_widgets.cpp > CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.i
+
+CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_widgets.cpp -o CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.s
+
+CMakeFiles/newProject.dir/src/imgui/imgui.cpp.o: CMakeFiles/newProject.dir/flags.make
+CMakeFiles/newProject.dir/src/imgui/imgui.cpp.o: /home/ayinde-abrams/Documents/my_project/src/imgui/imgui.cpp
+CMakeFiles/newProject.dir/src/imgui/imgui.cpp.o: CMakeFiles/newProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/newProject.dir/src/imgui/imgui.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/newProject.dir/src/imgui/imgui.cpp.o -MF CMakeFiles/newProject.dir/src/imgui/imgui.cpp.o.d -o CMakeFiles/newProject.dir/src/imgui/imgui.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/imgui/imgui.cpp
+
+CMakeFiles/newProject.dir/src/imgui/imgui.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/newProject.dir/src/imgui/imgui.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ayinde-abrams/Documents/my_project/src/imgui/imgui.cpp > CMakeFiles/newProject.dir/src/imgui/imgui.cpp.i
+
+CMakeFiles/newProject.dir/src/imgui/imgui.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/newProject.dir/src/imgui/imgui.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ayinde-abrams/Documents/my_project/src/imgui/imgui.cpp -o CMakeFiles/newProject.dir/src/imgui/imgui.cpp.s
+
 # Object files for target newProject
 newProject_OBJECTS = \
 "CMakeFiles/newProject.dir/src/main.cpp.o" \
@@ -205,7 +303,14 @@ newProject_OBJECTS = \
 "CMakeFiles/newProject.dir/src/glad.c.o" \
 "CMakeFiles/newProject.dir/src/stb.cpp.o" \
 "CMakeFiles/newProject.dir/src/texture.cpp.o" \
-"CMakeFiles/newProject.dir/src/camera.cpp.o"
+"CMakeFiles/newProject.dir/src/camera.cpp.o" \
+"CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.o" \
+"CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.o" \
+"CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.o" \
+"CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.o" \
+"CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.o" \
+"CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.o" \
+"CMakeFiles/newProject.dir/src/imgui/imgui.cpp.o"
 
 # External object files for target newProject
 newProject_EXTERNAL_OBJECTS =
@@ -219,11 +324,18 @@ newProject: CMakeFiles/newProject.dir/src/glad.c.o
 newProject: CMakeFiles/newProject.dir/src/stb.cpp.o
 newProject: CMakeFiles/newProject.dir/src/texture.cpp.o
 newProject: CMakeFiles/newProject.dir/src/camera.cpp.o
+newProject: CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.o
+newProject: CMakeFiles/newProject.dir/src/imgui/imgui_draw.cpp.o
+newProject: CMakeFiles/newProject.dir/src/imgui/imgui_impl_glfw.cpp.o
+newProject: CMakeFiles/newProject.dir/src/imgui/imgui_impl_opengl3.cpp.o
+newProject: CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.o
+newProject: CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.o
+newProject: CMakeFiles/newProject.dir/src/imgui/imgui.cpp.o
 newProject: CMakeFiles/newProject.dir/build.make
 newProject: /usr/lib/x86_64-linux-gnu/libGLX.so
 newProject: /usr/lib/x86_64-linux-gnu/libOpenGL.so
 newProject: CMakeFiles/newProject.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable newProject"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/ayinde-abrams/Documents/my_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking CXX executable newProject"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/newProject.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
