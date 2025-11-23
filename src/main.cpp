@@ -30,47 +30,48 @@ int main(int, char**){
    // Storing our values of each vertex in our coordinate space
    GLfloat vertices[] = 
    {   
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+    // positions          // normals           // texture coords
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
 
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
 
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
 
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
    };
 
    // Index Buffer
@@ -105,6 +106,12 @@ int main(int, char**){
    // The files are compiled to an intermediary language then translated into specific instructions for the GPU
    Shader shaderProgram("../assets/shaders/default.vert", "../assets/shaders/default.frag");
    Shader lightSourceProgram("../assets/shaders/lightSource.vert", "../assets/shaders/lightSource.frag"); // Shader program for light sources
+
+   //Texture diffuseMap("../container2.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+   //diffuseMap.texUnit(shaderProgram, "u_mat.diffuseMap", 0);
+
+   //Texture specularMap("../container2_specular.png", GL_TEXTURE_2D, GL_TEXTURE1, GL_RGBA, GL_UNSIGNED_BYTE);
+   //specularMap.texUnit(shaderProgram, "u_mat.specularMap", 1);
    
    // Vertex Array Buffer
    VAO VAO1;
@@ -114,14 +121,15 @@ int main(int, char**){
    VBO VBO1(vertices, sizeof(vertices));
   // EBO EBO1(indices, sizeof(indices)); // Responsible for storing indices on the GPU and drawing them in a specific order
    // Creating a second geometrical object 
-   VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0); // Basically create a pointer to the VBO (position)
-   VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+   VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0); // Basically create a pointer to the VBO (position)
+   VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+   VAO1.LinkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
    // Creating our second VAO for another object
    VAO VAO2;
    VAO2.Bind();
   // EBO EBO2(indices, sizeof(indices));
-   VAO2.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0); // We reuse the first VBO since it already has the attributes we want
+   VAO2.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0); // We reuse the first VBO since it already has the attributes we want
 
    VAO1.Unbind();
    VAO2.Unbind();
@@ -141,12 +149,15 @@ int main(int, char**){
    GLuint lightDiffuse = glGetUniformLocation(shaderProgram.ID, "u_light.diffuse");
    GLuint lightSpecular = glGetUniformLocation(shaderProgram.ID, "u_light.specular");
 
+   // Uniforms from light fragment shader
+   GLuint u_lightColor = glGetUniformLocation(lightSourceProgram.ID, "u_lightColor");
+
 
    glEnable(GL_DEPTH_TEST); // Allows for depth comparison and updates the depth buffer
 
    Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
-   glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+   glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 
    float deltaTime = 0.0f;
    float lastFrame = 0.0f;
@@ -160,7 +171,7 @@ int main(int, char**){
 
    // ImGui Variables
    bool drawTriangle = true;
-   glm::vec3 colorValue = {1.0f, 0.5f, 0.31f};
+   glm::vec3 colorValue = {1.0f, 1.0f, 1.0f};
 
    glm::vec3 ambientValue = colorValue;
    glm::vec3 diffuseValue = colorValue;
@@ -170,6 +181,8 @@ int main(int, char**){
    glm::vec3 lightDiffuseIntensity = {0.5f, 0.5f, 0.5f};
    glm::vec3 lightSpecularIntensity = {1.0f, 1.0f, 1.0f};
    float shinyValue = 32.0f;
+
+   float radius = 2.0f;
 
 
    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -197,8 +210,10 @@ int main(int, char**){
           camera.Inputs(window);
         camera.Matrix(45.0f, 0.1f, 100.0f, shaderProgram, "camMatrix");
 
-        // Uniform Assignments
-       
+        //Bind Texture(s)
+       // diffuseMap.Bind();
+        //specularMap.Bind();
+        // Uniform Assignments for shaderProgram
         glUniform3fv(u_objColor, 1, &colorValue[0]);
         glUniform3fv(u_lightPos, 1, &lightPos[0]);
         glUniform3fv(u_viewPos, 1, &camera.Position[0]);
@@ -230,24 +245,30 @@ int main(int, char**){
         GLuint lightModelLoc = glGetUniformLocation(lightSourceProgram.ID, "model");
 
         // Updating the light's position over time
-        lightPos.x = 1.0f + sin(glfwGetTime() * 2.0f);
-        lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
+        //lightPos.x = cos(crntFrame) * sqrt(pow(radius, 2.0f) - pow(lightPos.y, 2.0f));
+        //lightPos.y = sin(crntFrame) * sqrt(pow(radius, 2.0f) - pow(lightPos.x, 2.0f));
+        lightPos.x = cos(crntFrame) * radius;
+        lightPos.y = sin(crntFrame) * radius; 
+
 
         // Create a model matrix to translate and scale our second object 
         glm::mat4 lightModel = glm::mat4(1.0f);
         lightModel = glm::translate(lightModel, lightPos);
         lightModel = glm::scale(lightModel, glm::vec3(0.2));
 
+        // Uniform assignments for lightSourceProgram
         glUniformMatrix4fv(lightModelLoc, 1, GL_FALSE, glm::value_ptr(lightModel));
+        glUniform3fv(u_lightColor, 1, &specularValue[0]);
 
         // Do the same thing for the second VAO
         VAO2.Bind();
         if(drawTriangle)
           glDrawArrays(GL_TRIANGLES, 0, 36);
-
+        // GUI STUFF
         ImGui::Begin("OpenGL Settings Panel");
-        ImGui::Text("Material Tweaks");
+        ImGui::Text("Tweaks");
         ImGui::Checkbox("Draw Triangle", &drawTriangle);
+        ImGui::SliderFloat("Light Movement Radius", &radius, 1.0f, 4.0f, "%.1f");
 
         ImGui::Separator();
 
@@ -287,6 +308,8 @@ int main(int, char**){
    //EBO2.Delete();
    shaderProgram.Delete();
    lightSourceProgram.Delete();
+   //diffuseMap.Delete();
+   //specularMap.Delete();
 
    glfwTerminate();
    return 0;
