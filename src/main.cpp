@@ -21,6 +21,11 @@
 const unsigned int width = 800;
 const unsigned int height = 800;
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+     glViewport(0, 0, width, height);
+}
+
 int main(int, char**){
    // Storing our values of each vertex in our coordinate space
    GLfloat vertices[] = 
@@ -126,11 +131,16 @@ int main(int, char**){
 
    // Get uniforms from default fragment shader
    GLuint u_objColor = glGetUniformLocation(shaderProgram.ID, "u_objectColor");
-   GLuint u_lightColor = glGetUniformLocation(shaderProgram.ID, "u_lightColor");
    GLuint u_lightPos = glGetUniformLocation(shaderProgram.ID, "u_lightPos");
    GLuint u_viewPos = glGetUniformLocation(shaderProgram.ID, "u_viewPos");
-   GLuint u_ambientStrength = glGetUniformLocation(shaderProgram.ID, "u_ambientStrength");
-   GLuint u_specularStrength = glGetUniformLocation(shaderProgram.ID, "u_specularStrength");
+   GLuint ambientColor = glGetUniformLocation(shaderProgram.ID, "u_mat.ambient");
+   GLuint specularColor = glGetUniformLocation(shaderProgram.ID, "u_mat.specular");
+   GLuint diffuseColor = glGetUniformLocation(shaderProgram.ID, "u_mat.diffuse");
+   GLuint shininess = glGetUniformLocation(shaderProgram.ID, "u_mat.shininess");
+   GLuint lightAmbient = glGetUniformLocation(shaderProgram.ID, "u_light.ambient");
+   GLuint lightDiffuse = glGetUniformLocation(shaderProgram.ID, "u_light.diffuse");
+   GLuint lightSpecular = glGetUniformLocation(shaderProgram.ID, "u_light.specular");
+
 
    glEnable(GL_DEPTH_TEST); // Allows for depth comparison and updates the depth buffer
 
@@ -150,8 +160,19 @@ int main(int, char**){
 
    // ImGui Variables
    bool drawTriangle = true;
-   float ambientValue = 0.0f;
-   float specularValue = 0.0f;
+   glm::vec3 colorValue = {1.0f, 0.5f, 0.31f};
+
+   glm::vec3 ambientValue = colorValue;
+   glm::vec3 diffuseValue = colorValue;
+   glm::vec3 specularValue = {1.0f, 1.1f, 1.0f};
+
+   glm::vec3 lightAmbientIntensity = {0.2f, 0.2f, 0.2f};
+   glm::vec3 lightDiffuseIntensity = {0.5f, 0.5f, 0.5f};
+   glm::vec3 lightSpecularIntensity = {1.0f, 1.0f, 1.0f};
+   float shinyValue = 32.0f;
+
+
+   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
    // Main Render Loop
    while(!glfwWindowShouldClose(window)) {
@@ -177,14 +198,17 @@ int main(int, char**){
         camera.Matrix(45.0f, 0.1f, 100.0f, shaderProgram, "camMatrix");
 
         // Uniform Assignments
-        glm::vec3 colorValue = {1.0f, 0.5f, 0.31f};
+       
         glUniform3fv(u_objColor, 1, &colorValue[0]);
-        glm::vec3 lightValue = {1.0f, 1.0f, 1.0f};
-        glUniform3fv(u_lightColor, 1, &lightValue[0]); 
         glUniform3fv(u_lightPos, 1, &lightPos[0]);
         glUniform3fv(u_viewPos, 1, &camera.Position[0]);
-        glUniform1f(u_ambientStrength, ambientValue);
-        glUniform1f(u_specularStrength, specularValue);
+        glUniform3fv(ambientColor, 1, &ambientValue[0]);
+        glUniform3fv(specularColor, 1, &specularValue[0]);
+        glUniform3fv(diffuseColor, 1, &diffuseValue[0]);
+        glUniform3fv(lightAmbient, 1, &lightAmbientIntensity[0]);
+        glUniform3fv(lightDiffuse, 1, &lightDiffuseIntensity[0]);
+        glUniform3fv(lightSpecular, 1, &lightSpecularIntensity[0]);
+        glUniform1f(shininess, shinyValue);
 
         // Model matrix 
         GLuint defaultModelLoc = glGetUniformLocation(shaderProgram.ID, "model");
@@ -224,8 +248,14 @@ int main(int, char**){
         ImGui::Begin("OpenGL Settings Panel");
         ImGui::Text("Tweaks");
         ImGui::Checkbox("Draw Triangle", &drawTriangle);
-        ImGui::SliderFloat("Ambient Strength", &ambientValue, 0.0f, 1.0f, "%.2f", 0);
-        ImGui::SliderFloat("Specular Strength", &specularValue, 0.0f, 1.0f, "%.2f", 0);
+        ImGui::ColorEdit3("Object Color", &colorValue[0], 0);
+        ImGui::ColorEdit3("Ambient Color", &ambientValue[0], 1);
+        ImGui::ColorEdit3("Diffuse Color", &diffuseValue[0], 1);
+        ImGui::ColorEdit3("Specular Color", &specularValue[0], 1);
+        ImGui::SliderFloat3("Ambient Intensity", &lightAmbientIntensity[0], 0.0f, 1.0f, "%.2f");
+        ImGui::SliderFloat3("Diffuse Intensity", &lightDiffuseIntensity[0], 0.0f, 1.0f, "%.2f");
+        ImGui::SliderFloat3("Specular Intensity", &lightSpecularIntensity[0], 0.0f, 1.0f, "%.2f");
+        ImGui::SliderFloat("Shininess", &shinyValue, 0.0f, 64.0f, 0);
         ImGui::End();
 
         ImGui::Render();
@@ -253,3 +283,4 @@ int main(int, char**){
    glfwTerminate();
    return 0;
 }
+
