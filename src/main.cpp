@@ -246,12 +246,20 @@ int main(int, char**){
           glDrawArrays(GL_TRIANGLES, 0, 36);
 
         ImGui::Begin("OpenGL Settings Panel");
-        ImGui::Text("Tweaks");
+        ImGui::Text("Material Tweaks");
         ImGui::Checkbox("Draw Triangle", &drawTriangle);
+
+        ImGui::Separator();
+
+        ImGui::Text("Edit Colors");
         ImGui::ColorEdit3("Object Color", &colorValue[0], 0);
         ImGui::ColorEdit3("Ambient Color", &ambientValue[0], 1);
         ImGui::ColorEdit3("Diffuse Color", &diffuseValue[0], 1);
         ImGui::ColorEdit3("Specular Color", &specularValue[0], 1);
+
+        ImGui::Separator();
+
+        ImGui::Text("Edit Light Intensity");
         ImGui::SliderFloat3("Ambient Intensity", &lightAmbientIntensity[0], 0.0f, 1.0f, "%.2f");
         ImGui::SliderFloat3("Diffuse Intensity", &lightDiffuseIntensity[0], 0.0f, 1.0f, "%.2f");
         ImGui::SliderFloat3("Specular Intensity", &lightSpecularIntensity[0], 0.0f, 1.0f, "%.2f");
