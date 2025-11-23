@@ -124,11 +124,13 @@ int main(int, char**){
    //EBO1.Unbind();
   // EBO2.Unbind();
 
-   // Get uniforms from lightSource fragment shader
+   // Get uniforms from default fragment shader
    GLuint u_objColor = glGetUniformLocation(shaderProgram.ID, "u_objectColor");
    GLuint u_lightColor = glGetUniformLocation(shaderProgram.ID, "u_lightColor");
    GLuint u_lightPos = glGetUniformLocation(shaderProgram.ID, "u_lightPos");
    GLuint u_viewPos = glGetUniformLocation(shaderProgram.ID, "u_viewPos");
+   GLuint u_ambientStrength = glGetUniformLocation(shaderProgram.ID, "u_ambientStrength");
+   GLuint u_specularStrength = glGetUniformLocation(shaderProgram.ID, "u_specularStrength");
 
    glEnable(GL_DEPTH_TEST); // Allows for depth comparison and updates the depth buffer
 
@@ -146,7 +148,10 @@ int main(int, char**){
    ImGui_ImplGlfw_InitForOpenGL(window, true);
    ImGui_ImplOpenGL3_Init("#version 330");
 
+   // ImGui Variables
    bool drawTriangle = true;
+   float ambientValue = 0.0f;
+   float specularValue = 0.0f;
 
    // Main Render Loop
    while(!glfwWindowShouldClose(window)) {
@@ -178,6 +183,8 @@ int main(int, char**){
         glUniform3fv(u_lightColor, 1, &lightValue[0]); 
         glUniform3fv(u_lightPos, 1, &lightPos[0]);
         glUniform3fv(u_viewPos, 1, &camera.Position[0]);
+        glUniform1f(u_ambientStrength, ambientValue);
+        glUniform1f(u_specularStrength, specularValue);
 
         // Model matrix 
         GLuint defaultModelLoc = glGetUniformLocation(shaderProgram.ID, "model");
@@ -214,9 +221,11 @@ int main(int, char**){
         if(drawTriangle)
           glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        ImGui::Begin("My name is window, ImGUI window");
-        ImGui::Text("Hello there adventurer!");
+        ImGui::Begin("OpenGL Settings Panel");
+        ImGui::Text("Tweaks");
         ImGui::Checkbox("Draw Triangle", &drawTriangle);
+        ImGui::SliderFloat("Ambient Strength", &ambientValue, 0.0f, 1.0f, "%.2f", 0);
+        ImGui::SliderFloat("Specular Strength", &specularValue, 0.0f, 1.0f, "%.2f", 0);
         ImGui::End();
 
         ImGui::Render();
