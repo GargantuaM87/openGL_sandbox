@@ -31,6 +31,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/newProject.dir/src/stb.cpp.o.d"
   "CMakeFiles/newProject.dir/src/texture.cpp.o"
   "CMakeFiles/newProject.dir/src/texture.cpp.o.d"
+  "CMakeFiles/newProject.dir/src/uniformClass.cpp.o"
+  "CMakeFiles/newProject.dir/src/uniformClass.cpp.o.d"
   "newProject"
   "newProject.pdb"
 )

@@ -439,4 +439,5 @@ CMakeFiles/newProject.dir/src/main.cpp.o: \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtx/../gtx/../gtx/norm.inl \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtx/../gtx/quaternion.inl \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtx/vector_angle.inl \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/uniform.h \
  /home/ayinde-abrams/Documents/my_project/src/../include/stb/stb_image.h

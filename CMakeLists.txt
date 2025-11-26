@@ -15,6 +15,7 @@ src/glad.c
 src/stb.cpp
 src/texture.cpp
 src/camera.cpp
+src/uniformClass.cpp
 src/imgui/imgui_demo.cpp
 src/imgui/imgui_draw.cpp
 src/imgui/imgui_impl_glfw.cpp

@@ -55,6 +55,12 @@
 },
 {
   "directory": "/home/ayinde-abrams/Documents/my_project/build",
+  "command": "/usr/bin/c++  -I/home/ayinde-abrams/Documents/my_project -I/home/ayinde-abrams/Documents/my_project/headers -I/home/ayinde-abrams/Documents/my_project/imgui -I/home/ayinde-abrams/Documents/my_project/include -g -o CMakeFiles/newProject.dir/src/uniformClass.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/uniformClass.cpp",
+  "file": "/home/ayinde-abrams/Documents/my_project/src/uniformClass.cpp",
+  "output": "CMakeFiles/newProject.dir/src/uniformClass.cpp.o"
+},
+{
+  "directory": "/home/ayinde-abrams/Documents/my_project/build",
   "command": "/usr/bin/c++  -I/home/ayinde-abrams/Documents/my_project -I/home/ayinde-abrams/Documents/my_project/headers -I/home/ayinde-abrams/Documents/my_project/imgui -I/home/ayinde-abrams/Documents/my_project/include -g -o CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_demo.cpp",
   "file": "/home/ayinde-abrams/Documents/my_project/src/imgui/imgui_demo.cpp",
   "output": "CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.o"

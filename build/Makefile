@@ -513,6 +513,30 @@ src/texture.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/newProject.dir/build.make CMakeFiles/newProject.dir/src/texture.cpp.s
 .PHONY : src/texture.cpp.s
 
+src/uniformClass.o: src/uniformClass.cpp.o
+.PHONY : src/uniformClass.o
+
+# target to build an object file
+src/uniformClass.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/newProject.dir/build.make CMakeFiles/newProject.dir/src/uniformClass.cpp.o
+.PHONY : src/uniformClass.cpp.o
+
+src/uniformClass.i: src/uniformClass.cpp.i
+.PHONY : src/uniformClass.i
+
+# target to preprocess a source file
+src/uniformClass.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/newProject.dir/build.make CMakeFiles/newProject.dir/src/uniformClass.cpp.i
+.PHONY : src/uniformClass.cpp.i
+
+src/uniformClass.s: src/uniformClass.cpp.s
+.PHONY : src/uniformClass.s
+
+# target to generate assembly for a file
+src/uniformClass.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/newProject.dir/build.make CMakeFiles/newProject.dir/src/uniformClass.cpp.s
+.PHONY : src/uniformClass.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -570,6 +594,9 @@ help:
 	@echo "... src/texture.o"
 	@echo "... src/texture.i"
 	@echo "... src/texture.s"
+	@echo "... src/uniformClass.o"
+	@echo "... src/uniformClass.i"
+	@echo "... src/uniformClass.s"
 .PHONY : help
 
 
