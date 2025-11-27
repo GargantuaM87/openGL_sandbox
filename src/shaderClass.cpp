@@ -46,6 +46,21 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
    glDeleteShader(fragmentShader);
 }
 
+void Shader::SetToVec2(const char* uniform, const GLfloat* value) {
+   GLuint uniformLoc = glGetUniformLocation(ID, uniform);
+   glUniform2fv(uniformLoc, 1, &value[0]);
+}
+
+void Shader::SetToVec3(const char* uniform, const GLfloat* value) {
+   GLuint uniformLoc = glGetUniformLocation(ID, uniform);
+   glUniform3fv(uniformLoc, 1, &value[0]);
+}
+
+void Shader::SetToFloat(const char* uniform, GLfloat value) {
+    GLuint uniformLoc = glGetUniformLocation(ID, uniform);
+    glUniform1f(uniformLoc, value);
+}
+
 void Shader::Activate() 
 {
     glUseProgram(ID);
