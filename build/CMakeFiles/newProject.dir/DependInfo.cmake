@@ -21,6 +21,8 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/ayinde-abrams/Documents/my_project/src/imgui/imgui_tables.cpp" "CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/imgui/imgui_tables.cpp.o.d"
   "/home/ayinde-abrams/Documents/my_project/src/imgui/imgui_widgets.cpp" "CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/imgui/imgui_widgets.cpp.o.d"
   "/home/ayinde-abrams/Documents/my_project/src/main.cpp" "CMakeFiles/newProject.dir/src/main.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/main.cpp.o.d"
+  "/home/ayinde-abrams/Documents/my_project/src/mesh.cpp" "CMakeFiles/newProject.dir/src/mesh.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/mesh.cpp.o.d"
+  "/home/ayinde-abrams/Documents/my_project/src/model.cpp" "CMakeFiles/newProject.dir/src/model.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/model.cpp.o.d"
   "/home/ayinde-abrams/Documents/my_project/src/shaderClass.cpp" "CMakeFiles/newProject.dir/src/shaderClass.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/shaderClass.cpp.o.d"
   "/home/ayinde-abrams/Documents/my_project/src/stb.cpp" "CMakeFiles/newProject.dir/src/stb.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/stb.cpp.o.d"
   "/home/ayinde-abrams/Documents/my_project/src/texture.cpp" "CMakeFiles/newProject.dir/src/texture.cpp.o" "gcc" "CMakeFiles/newProject.dir/src/texture.cpp.o.d"

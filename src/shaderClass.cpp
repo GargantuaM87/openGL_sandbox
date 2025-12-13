@@ -61,6 +61,15 @@ void Shader::SetToFloat(const char* uniform, GLfloat value) {
     glUniform1f(uniformLoc, value);
 }
 
+void Shader::SetToInt(const char* uniform, GLint value) {
+    GLuint uniformLoc = glGetUniformLocation(ID, uniform);
+    glUniform1i(uniformLoc, value);
+}
+
+void Shader::SetToMat4(const char* uniform, glm::mat4 &matrix) {
+    glUniformMatrix4fv(glGetUniformLocation(ID, uniform), 1, GL_FALSE, &matrix[0][0]);
+}
+
 void Shader::Activate() 
 {
     glUseProgram(ID);

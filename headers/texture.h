@@ -6,12 +6,12 @@
 
 #include "shaderClass.h"
 
-class Texture {
+class TextureUnit {
     public:
         GLuint ID;
         GLenum type;
 
-        Texture(const char* image, GLenum texType, GLenum slot, GLenum format, GLenum pixelType);
+        TextureUnit(const char* image, GLenum texType, GLenum slot, GLenum format, GLenum pixelType);
 
         // Assigns a texture unit to a texture
         void texUnit(Shader& shader, const char* uniform, GLuint unit);

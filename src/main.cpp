@@ -5,6 +5,7 @@
 #include "glad.h"
 #include <GLFW/glfw3.h>
 #include <cmath>
+#include <filesystem>
 
 #include "../headers/shaderClass.h"
 #include "../headers/EBO.h"
@@ -13,6 +14,7 @@
 #include "../headers/texture.h"
 #include "../headers/camera.h"
 #include "../headers/uniform.h"
+#include "../headers/model.h"
 
 #include "../include/stb/stb_image.h"
 #include "../include/glm/glm.hpp"
@@ -121,14 +123,10 @@ int main(int, char **)
      // The files are compiled to an intermediary language then translated into specific instructions for the GPU
      Shader shaderProgram("../assets/shaders/default.vert", "../assets/shaders/default.frag");
      Shader lightSourceProgram("../assets/shaders/lightSource.vert", "../assets/shaders/lightSource.frag"); // Shader program for light sources
-     
-     Uniform shaderUniformManager(shaderProgram);
 
-     Texture diffuseMap("../container2.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-     diffuseMap.texUnit(shaderProgram, "u_mat.diffuseMap", 0);
-
-     Texture specularMap("../container2_specular.png", GL_TEXTURE_2D, GL_TEXTURE1, GL_RGBA, GL_UNSIGNED_BYTE);
-     specularMap.texUnit(shaderProgram, "u_mat.specularMap", 1);
+     Shader modelShader("../assets/shaders/model.vert", "../assets/shaders/model.frag");
+     Model model("../assets/backpack/backpack.obj");
+    
 
      // Vertex Array Buffer
      VAO VAO1;
@@ -153,15 +151,6 @@ int main(int, char **)
      VBO1.Unbind();
      // EBO1.Unbind();
      // EBO2.Unbind();
-
-     // Get uniforms from default fragment shader
-     GLuint u_objColor = glGetUniformLocation(shaderProgram.ID, "u_objectColor");
-     GLuint u_viewPos = glGetUniformLocation(shaderProgram.ID, "u_viewPos");
-     GLuint shininess = glGetUniformLocation(shaderProgram.ID, "u_mat.shininess");
-     
-
-     // Uniforms from light fragment shader
-     GLuint u_lightColor = glGetUniformLocation(lightSourceProgram.ID, "u_lightColor");
 
      glEnable(GL_DEPTH_TEST); // Allows for depth comparison and updates the depth buffer
 
@@ -218,116 +207,19 @@ int main(int, char **)
           lastFrame = crntFrame;
 
           // Tell OpenGL which shader program we want to use
-          shaderProgram.Activate();
+          modelShader.Activate();
 
           if (!io.WantCaptureMouse)
                camera.Inputs(window);
-          camera.Matrix(45.0f, 0.1f, 100.0f, shaderProgram, "camMatrix");
+          camera.Matrix(45.0f, 0.1f, 100.0f, modelShader, "camMatrix");
 
-          // Bind Texture(s) to their texture units
-          glActiveTexture(GL_TEXTURE0);
-          diffuseMap.Bind();
-          glActiveTexture(GL_TEXTURE1);
-          specularMap.Bind();
-          // restore active texture to 0
-          glActiveTexture(GL_TEXTURE0);
-          // Uniform Assignments for shaderProgram
-          glUniform3fv(u_objColor, 1, &colorValue[0]);
-          glUniform3fv(u_viewPos, 1, &camera.Position[0]);
-
-          shaderProgram.SetToVec3("dirLight.direction", &glm::vec3(-0.2f, -1.0f, -0.3f)[0]);
-          shaderProgram.SetToVec3("dirLight.ambient", &dirLightAmbientIntensity[0]);
-          shaderProgram.SetToVec3("dirLight.diffuse", &dirLightDiffuseIntensity[0]);
-          shaderProgram.SetToVec3("dirLight.specular", &dirLightSpecularIntensity[0]);
-          // Point Light 1
-          shaderProgram.SetToVec3("pointLights[0].position", &pointLightsPos[0][0]);
-          shaderProgram.SetToVec3("pointLights[0].ambient", &glm::vec3(0.05f, 0.05f, 0.05f)[0]);
-          shaderProgram.SetToVec3("pointLights[0].diffuse", &glm::vec3(0.8f, 0.8f, 0.8f)[0]);
-          shaderProgram.SetToVec3("pointLights[0].specular", &glm::vec3(1.0f, 1.0f, 1.0f)[0]);
-          shaderProgram.SetToFloat("pointLights[0].constant", 1.0f);
-          shaderProgram.SetToFloat("pointLights[0].linear", 0.09f);
-          shaderProgram.SetToFloat("pointLights[0].quadratic", 0.032f);
-          // Point Light 2
-          shaderProgram.SetToVec3("pointLights[1].position", &pointLightsPos[1][0]);
-          shaderProgram.SetToVec3("pointLights[1].ambient", &glm::vec3(0.05f, 0.05f, 0.05f)[0]);
-          shaderProgram.SetToVec3("pointLights[1].diffuse", &glm::vec3(0.8f, 0.8f, 0.8f)[0]);
-          shaderProgram.SetToVec3("pointLights[1].specular", &glm::vec3(1.0f, 1.0f, 1.0f)[0]);
-          shaderProgram.SetToFloat("pointLights[1].constant", 1.0f);
-          shaderProgram.SetToFloat("pointLights[1].linear", 0.09f);
-          shaderProgram.SetToFloat("pointLights[1].quadratic", 0.032f);
-          // Point Light 3
-          shaderProgram.SetToVec3("pointLights[2].position", &pointLightsPos[2][0]);
-          shaderProgram.SetToVec3("pointLights[2].ambient", &glm::vec3(0.05f, 0.05f, 0.05f)[0]);
-          shaderProgram.SetToVec3("pointLights[2].diffuse", &glm::vec3(0.8f, 0.8f, 0.8f)[0]);
-          shaderProgram.SetToVec3("pointLights[2].specular", &glm::vec3(1.0f, 1.0f, 1.0f)[0]);
-          shaderProgram.SetToFloat("pointLights[2].constant", 1.0f);
-          shaderProgram.SetToFloat("pointLights[2].linear", 0.09f);
-          shaderProgram.SetToFloat("pointLights[2].quadratic", 0.032f);
-          // Point Light 4
-          shaderProgram.SetToVec3("pointLights[3].position", &pointLightsPos[3][0]);
-          shaderProgram.SetToVec3("pointLights[3].ambient", &glm::vec3(0.05f, 0.05f, 0.05f)[0]);
-          shaderProgram.SetToVec3("pointLights[3].diffuse", &glm::vec3(0.8f, 0.8f, 0.8f)[0]);
-          shaderProgram.SetToVec3("pointLights[3].specular", &glm::vec3(1.0f, 1.0f, 1.0f)[0]);
-          shaderProgram.SetToFloat("pointLights[3].constant", 1.0f);
-          shaderProgram.SetToFloat("pointLights[3].linear", 0.09f);
-          shaderProgram.SetToFloat("pointLights[3].quadratic", 0.032f);
-          // Spot Light
-          shaderProgram.SetToVec3("spotLight.position", &camera.Position[0]);
-          shaderProgram.SetToVec3("spotLight.direction", &(camera.Position * camera.Orientation)[0]);
-          shaderProgram.SetToVec3("spotLight.ambient", &glm::vec3(0.0f, 0.0f, 0.0f)[0]);
-          shaderProgram.SetToVec3("spotLight.diffuse", &glm::vec3(1.0f, 1.0f, 1.0f)[0]);
-          shaderProgram.SetToVec3("spotLight.specular", &glm::vec3(1.0f, 1.0f, 1.0f)[0]);
-          shaderProgram.SetToFloat("spotLight.constant", 1.0f);
-          shaderProgram.SetToFloat("spotLight.linear", 0.09f);
-          shaderProgram.SetToFloat("spotLight.quadratic", 0.032f);
-          shaderProgram.SetToFloat("spotLight.innerCutoff", glm::cos(glm::radians(12.5f)));
-          shaderProgram.SetToFloat("spotLight.outerCutoff", glm::cos(glm::radians(15.0f)));
-          
+          glm::mat4 modelM = glm::mat4(1.0f);
+          modelM = glm::translate(modelM, glm::vec3(0.0f, 0.0f, 0.0f));
+          modelM = glm::scale(modelM, glm::vec3(1.0f, 1.0f, 1.0f));
+          modelShader.SetToMat4("model", modelM);
+          model.Draw(modelShader);
 
 
-          // Updating the light's position over time (MUST be done before drawing, while shaderProgram is active)
-          //lightPos.x = cos(glfwGetTime()) * radius;
-          //lightPos.y = sin(glfwGetTime()) * radius;
-
-          // Model matrix
-          GLuint defaultModelLoc = glGetUniformLocation(shaderProgram.ID, "model");
-          for (unsigned int i = 0; i < 10; i++)
-          {
-               glm::mat4 defaultModel = glm::mat4(1.0f);
-               defaultModel = glm::translate(defaultModel, cubePositions[i]);
-               float angle = 20.0f * i;
-               defaultModel = glm::rotate(defaultModel, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-               glUniformMatrix4fv(defaultModelLoc, 1, GL_FALSE, glm::value_ptr(defaultModel));
-
-               // Bind the VAO so OpenGL knows to use it
-               VAO1.Bind();
-               // Draw primitives, number of indices, datatype of indices, index of indices
-               if (drawTriangle)
-                    glDrawArrays(GL_TRIANGLES, 0, 36);
-          }
-
-
-          // Activate our second shader program
-          // Objects drawn under this activation will be using this shader
-          lightSourceProgram.Activate();
-
-          camera.Matrix(45.0f, 0.1f, 100.0f, lightSourceProgram, "camMatrix");
-
-          GLuint lightModelLoc = glGetUniformLocation(lightSourceProgram.ID, "model");
-
-          for(unsigned int i = 0; i < 4; i++) 
-          {
-               // Create a model matrix to translate and scale our second object
-               glm::mat4 lightModel = glm::mat4(1.0f);
-               lightModel = glm::translate(lightModel, pointLightsPos[i]);
-               lightModel = glm::scale(lightModel, glm::vec3(0.2));
-               // Uniform assignments for lightSourceProgram
-               glUniformMatrix4fv(lightModelLoc, 1, GL_FALSE, glm::value_ptr(lightModel));
-               // Do the same thing for the second VAO
-               VAO2.Bind();
-               if (drawTriangle)
-                    glDrawArrays(GL_TRIANGLES, 0, 36);
-          }
           // GUI STUFF
           ImGui::Begin("OpenGL Settings Panel");
           ImGui::Text("Tweaks");

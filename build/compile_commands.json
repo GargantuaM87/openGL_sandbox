@@ -61,6 +61,18 @@
 },
 {
   "directory": "/home/ayinde-abrams/Documents/my_project/build",
+  "command": "/usr/bin/c++  -I/home/ayinde-abrams/Documents/my_project -I/home/ayinde-abrams/Documents/my_project/headers -I/home/ayinde-abrams/Documents/my_project/imgui -I/home/ayinde-abrams/Documents/my_project/include -g -o CMakeFiles/newProject.dir/src/model.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/model.cpp",
+  "file": "/home/ayinde-abrams/Documents/my_project/src/model.cpp",
+  "output": "CMakeFiles/newProject.dir/src/model.cpp.o"
+},
+{
+  "directory": "/home/ayinde-abrams/Documents/my_project/build",
+  "command": "/usr/bin/c++  -I/home/ayinde-abrams/Documents/my_project -I/home/ayinde-abrams/Documents/my_project/headers -I/home/ayinde-abrams/Documents/my_project/imgui -I/home/ayinde-abrams/Documents/my_project/include -g -o CMakeFiles/newProject.dir/src/mesh.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/mesh.cpp",
+  "file": "/home/ayinde-abrams/Documents/my_project/src/mesh.cpp",
+  "output": "CMakeFiles/newProject.dir/src/mesh.cpp.o"
+},
+{
+  "directory": "/home/ayinde-abrams/Documents/my_project/build",
   "command": "/usr/bin/c++  -I/home/ayinde-abrams/Documents/my_project -I/home/ayinde-abrams/Documents/my_project/headers -I/home/ayinde-abrams/Documents/my_project/imgui -I/home/ayinde-abrams/Documents/my_project/include -g -o CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.o -c /home/ayinde-abrams/Documents/my_project/src/imgui/imgui_demo.cpp",
   "file": "/home/ayinde-abrams/Documents/my_project/src/imgui/imgui_demo.cpp",
   "output": "CMakeFiles/newProject.dir/src/imgui/imgui_demo.cpp.o"

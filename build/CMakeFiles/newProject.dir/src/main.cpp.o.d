@@ -183,29 +183,34 @@ CMakeFiles/newProject.dir/src/main.cpp.o: \
  /usr/include/c++/13/tr1/modified_bessel_func.tcc \
  /usr/include/c++/13/tr1/poly_hermite.tcc \
  /usr/include/c++/13/tr1/poly_laguerre.tcc \
- /usr/include/c++/13/tr1/riemann_zeta.tcc \
+ /usr/include/c++/13/tr1/riemann_zeta.tcc /usr/include/c++/13/filesystem \
+ /usr/include/c++/13/bits/fs_fwd.h /usr/include/c++/13/cstdint \
+ /usr/include/c++/13/bits/chrono.h /usr/include/c++/13/ratio \
+ /usr/include/c++/13/ctime /usr/include/c++/13/bits/parse_numbers.h \
+ /usr/include/c++/13/bits/fs_path.h /usr/include/c++/13/locale \
+ /usr/include/c++/13/bits/locale_facets_nonio.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
+ /usr/include/libintl.h /usr/include/c++/13/bits/codecvt.h \
+ /usr/include/c++/13/bits/locale_facets_nonio.tcc \
+ /usr/include/c++/13/bits/locale_conv.h /usr/include/c++/13/iomanip \
+ /usr/include/c++/13/bits/quoted_string.h /usr/include/c++/13/sstream \
+ /usr/include/c++/13/bits/sstream.tcc /usr/include/c++/13/codecvt \
+ /usr/include/c++/13/ext/concurrence.h \
+ /usr/include/c++/13/bits/shared_ptr.h \
+ /usr/include/c++/13/bits/shared_ptr_base.h \
+ /usr/include/c++/13/bits/allocated_ptr.h \
+ /usr/include/c++/13/bits/unique_ptr.h \
+ /usr/include/c++/13/ext/aligned_buffer.h \
+ /usr/include/c++/13/bits/fs_dir.h /usr/include/c++/13/bits/fs_ops.h \
  /home/ayinde-abrams/Documents/my_project/src/../headers/shaderClass.h \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../src/glad.h \
- /usr/include/c++/13/fstream /usr/include/c++/13/bits/codecvt.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
- /usr/include/c++/13/bits/fstream.tcc /usr/include/c++/13/sstream \
- /usr/include/c++/13/bits/sstream.tcc \
- /home/ayinde-abrams/Documents/my_project/src/../headers/EBO.h \
- /home/ayinde-abrams/Documents/my_project/src/../headers/VBO.h \
- /home/ayinde-abrams/Documents/my_project/src/../headers/VAO.h \
- /home/ayinde-abrams/Documents/my_project/src/../headers/VBO.h \
- /home/ayinde-abrams/Documents/my_project/src/../headers/texture.h \
- /home/ayinde-abrams/Documents/my_project/src/../headers/../include/stb/stb_image.h \
- /usr/include/c++/13/stdlib.h \
- /home/ayinde-abrams/Documents/my_project/src/../headers/shaderClass.h \
- /home/ayinde-abrams/Documents/my_project/src/../headers/camera.h \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/glm.hpp \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/detail/_fixes.hpp \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/detail/setup.hpp \
  /usr/include/c++/13/cassert \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/detail/../simd/platform.h \
- /usr/include/c++/13/cstdint /usr/include/c++/13/climits \
+ /usr/include/c++/13/climits \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
  /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
@@ -245,7 +250,6 @@ CMakeFiles/newProject.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/unordered_map.h \
  /usr/include/c++/13/bits/hashtable.h \
  /usr/include/c++/13/bits/hashtable_policy.h \
- /usr/include/c++/13/ext/aligned_buffer.h \
  /usr/include/c++/13/bits/enable_special_members.h \
  /usr/include/c++/13/bits/node_handle.h \
  /usr/include/c++/13/bits/erase_if.h /usr/include/c++/13/vector \
@@ -370,6 +374,19 @@ CMakeFiles/newProject.dir/src/main.cpp.o: \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/detail/type_half.inl \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/integer.hpp \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/detail/func_integer.inl \
+ /usr/include/c++/13/fstream \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
+ /usr/include/c++/13/bits/fstream.tcc \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/EBO.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/VBO.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/VAO.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/VBO.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/texture.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/../include/stb/stb_image.h \
+ /usr/include/c++/13/stdlib.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/shaderClass.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/camera.h \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtc/matrix_transform.hpp \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtc/../ext/matrix_projection.hpp \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtc/../ext/../gtc/constants.hpp \
@@ -440,4 +457,27 @@ CMakeFiles/newProject.dir/src/main.cpp.o: \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtx/../gtx/quaternion.inl \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtx/vector_angle.inl \
  /home/ayinde-abrams/Documents/my_project/src/../headers/uniform.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/model.h \
+ /usr/include/assimp/scene.h /usr/include/assimp/types.h \
+ /usr/include/assimp/defs.h /usr/include/assimp/config.h \
+ /usr/include/assimp/vector2.h /usr/include/assimp/vector3.h \
+ /usr/include/assimp/color4.h /usr/include/assimp/matrix3x3.h \
+ /usr/include/assimp/matrix4x4.h /usr/include/assimp/quaternion.h \
+ /usr/include/assimp/vector2.inl /usr/include/assimp/vector3.inl \
+ /usr/include/assimp/color4.inl /usr/include/assimp/matrix3x3.inl \
+ /usr/include/c++/13/algorithm \
+ /usr/include/c++/13/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/13/pstl/execution_defs.h \
+ /usr/include/assimp/matrix4x4.inl /usr/include/assimp/MathFunctions.h \
+ /usr/include/assimp/quaternion.inl /usr/include/assimp/texture.h \
+ /usr/include/assimp/Compiler/pushpack1.h \
+ /usr/include/assimp/Compiler/poppack1.h /usr/include/assimp/mesh.h \
+ /usr/include/assimp/aabb.h /usr/include/assimp/light.h \
+ /usr/include/assimp/camera.h /usr/include/assimp/material.h \
+ /usr/include/assimp/material.inl /usr/include/assimp/anim.h \
+ /usr/include/assimp/metadata.h /usr/include/assimp/Importer.hpp \
+ /usr/include/assimp/postprocess.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/mesh.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/VAO.h \
+ /home/ayinde-abrams/Documents/my_project/src/../headers/EBO.h \
  /home/ayinde-abrams/Documents/my_project/src/../include/stb/stb_image.h

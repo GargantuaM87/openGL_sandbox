@@ -16,6 +16,8 @@ src/stb.cpp
 src/texture.cpp
 src/camera.cpp
 src/uniformClass.cpp
+src/model.cpp
+src/mesh.cpp
 src/imgui/imgui_demo.cpp
 src/imgui/imgui_draw.cpp
 src/imgui/imgui_impl_glfw.cpp
@@ -31,4 +33,4 @@ target_include_directories(newProject PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-target_link_libraries(newProject glfw OpenGL::GL)
+target_link_libraries(newProject glfw assimp OpenGL::GL)

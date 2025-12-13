@@ -1,6 +1,6 @@
 #include "../headers/texture.h"
 
-Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum format, GLenum pixelType) {
+TextureUnit::TextureUnit(const char* image, GLenum texType, GLenum slot, GLenum format, GLenum pixelType) {
     type = texType;
 
     // Stores the width, height and number of color channels of the image
@@ -42,7 +42,7 @@ Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum format, 
     glBindTexture(texType, 0);
 }
 
-void Texture::texUnit(Shader& shader, const char* uniform, GLuint unit) {
+void TextureUnit::texUnit(Shader& shader, const char* uniform, GLuint unit) {
     // Gets the location of the uniform
     GLuint texUni = glGetUniformLocation(shader.ID, uniform);
     // Shader needs to be activated before changing the value of a uniform
@@ -51,14 +51,14 @@ void Texture::texUnit(Shader& shader, const char* uniform, GLuint unit) {
     glUniform1i(texUni, unit);
 }
 
-void Texture::Bind() {
+void TextureUnit::Bind() {
     glBindTexture(type, ID);
 }
 
-void Texture::Unbind() {
+void TextureUnit::Unbind() {
     glBindTexture(type, 0);
 }
 
-void Texture::Delete() {
+void TextureUnit::Delete() {
     glDeleteTextures(1, &ID);
 }

@@ -2,6 +2,7 @@
 #define SHADER_CLASS_H
 
 #include "../src/glad.h"
+#include "../include/glm/glm.hpp"
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -20,6 +21,10 @@ class Shader {
         void SetToVec3(const char* uniform, const GLfloat* value);
 
         void SetToFloat(const char* uniform, GLfloat value);
+
+        void SetToInt(const char* uniform, GLint value);
+
+        void SetToMat4(const char* uniform, glm::mat4 &matrix);
 
         void Activate();
         void Delete();
