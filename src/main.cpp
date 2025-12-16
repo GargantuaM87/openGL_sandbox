@@ -123,9 +123,12 @@ int main(int, char **)
      // The files are compiled to an intermediary language then translated into specific instructions for the GPU
      Shader shaderProgram("../assets/shaders/default.vert", "../assets/shaders/default.frag");
      Shader lightSourceProgram("../assets/shaders/lightSource.vert", "../assets/shaders/lightSource.frag"); // Shader program for light sources
-
      Shader modelShader("../assets/shaders/model.vert", "../assets/shaders/model.frag");
+     
      Model model("../assets/backpack/backpack.obj");
+     Model lightSphere("../assets/sphere/source/sphere.obj");
+
+
     
 
      // Vertex Array Buffer
@@ -156,7 +159,8 @@ int main(int, char **)
 
      Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
-     glm::vec3 lightPos(1.2f, 2.0f, 1.0f);
+     glm::vec3 lightPos(0.5f, 0.5f, 0.0f);
+     float radius = 3.0f;
 
      float deltaTime = 0.0f;
      float lastFrame = 0.0f;
@@ -177,6 +181,10 @@ int main(int, char **)
      glm::vec3 dirLightDiffuseIntensity = {0.4f, 0.4f, 0.4f};
      glm::vec3 dirLightSpecularIntensity = {0.1f, 0.1f, 0.1f};
      glm::vec3 dirLightVecDirection = {-0.2f, -1.0f, -0.3f};
+
+     glm::vec3 pLightAmbient(0.6f);
+     glm::vec3 pLightDiffuse(0.8f);
+     glm::vec3 pLightSpecular(1.0f);
      float shinyValue = 32.0f;
 
      glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -210,13 +218,36 @@ int main(int, char **)
           modelShader.SetToMat4("model", modelM);
           model.Draw(modelShader);
 
+          lightPos.x = cos(crntFrame) * radius;
+          lightPos.y = sin(crntFrame) * radius;
+
+          // Directional Light Uniforms
           modelShader.SetToFloat("u_mat.shininess", shinyValue);
           modelShader.SetToVec3("dirLight.direction", &dirLightVecDirection[0]);
           modelShader.SetToVec3("dirLight.ambient", &dirLightAmbientIntensity[0]);
           modelShader.SetToVec3("dirLight.diffuse", &dirLightDiffuseIntensity[0]);
           modelShader.SetToVec3("dirLight.specular", &dirLightSpecularIntensity[0]);
           modelShader.SetToVec3("u_viewPos", &camera.Position[0]);
+          // Point Light Uniforms
+          modelShader.SetToVec3("pointLight.position", &lightPos[0]);
+          modelShader.SetToVec3("pointLight.ambient", &pLightAmbient[0]);
+          modelShader.SetToVec3("pointLight.diffuse", &pLightDiffuse[0]);
+          modelShader.SetToVec3("pointLight.specular", &pLightSpecular[0]);
+          modelShader.SetToFloat("pointLight.constant", 1.0f);
+          modelShader.SetToFloat("pointLight.linear", 0.09f);
+          modelShader.SetToFloat("pointLight.quadratic", 0.032f);
 
+
+          lightSourceProgram.Activate();
+          camera.Matrix(45.0f, 0.1f, 100.0f, lightSourceProgram, "camMatrix");
+
+          glm::mat4 lightModel = glm::mat4(1.0f);
+          lightModel = glm::translate(lightModel, lightPos);
+          lightModel = glm::scale(lightModel, glm::vec3(0.15f, 0.15f, 0.15f));
+          
+
+          lightSourceProgram.SetToMat4("model", lightModel);
+          lightSphere.Draw(lightSourceProgram);
 
           // GUI STUFF
           ImGui::Begin("OpenGL Settings Panel");
@@ -228,6 +259,13 @@ int main(int, char **)
           ImGui::Text("Edit Directional Light");
           ImGui::SliderFloat3("Light Direction", &dirLightVecDirection[0], 0.0f, 1.0f, "%.2f");
           ImGui::SliderFloat("Shininess", &shinyValue, 0.0f, 64.0f, 0);
+
+          ImGui::Separator();
+
+          ImGui::Text("Edit Point Light");
+          ImGui::SliderFloat3("Point Ambience", &pLightAmbient[0], 0.0f, 1.0f, "%.2f");
+          ImGui::SliderFloat3("Point Diffusion", &pLightDiffuse[0], 0.0f, 1.0f, "%.2f");
+          ImGui::SliderFloat3("Point Specular", &pLightSpecular[0], 0.0f, 1.0f, "%.2f");
           ImGui::End();
 
           ImGui::Render();
