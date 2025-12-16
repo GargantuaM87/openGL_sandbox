@@ -179,22 +179,13 @@ int main(int, char **)
      glm::vec3 dirLightVecDirection = {-0.2f, -1.0f, -0.3f};
      float shinyValue = 32.0f;
 
-     glm::vec3 pointLightsPos[] = {
-          glm::vec3(0.7f, 0.2f, 2.0f),
-          glm::vec3(2.3f, -3.3f, -4.0f),
-          glm::vec3(-4.0f, 2.0f, -12.0f),
-          glm::vec3(0.0f, 0.0f, -3.0f)
-     };
-
-     float radius = 2.0f;
-
      glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
      // Main Render Loop
      while (!glfwWindowShouldClose(window))
      {
           // Specify color of background
-          glClearColor(0.0f, 0.0f, 0.30f, 1.0f);
+          glClearColor(0.0f, 0.0f, 0.15f, 1.0f);
           // Clean the back buffer and assign the new color to it and update the depth buffer
           glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -219,20 +210,23 @@ int main(int, char **)
           modelShader.SetToMat4("model", modelM);
           model.Draw(modelShader);
 
+          modelShader.SetToFloat("u_mat.shininess", shinyValue);
+          modelShader.SetToVec3("dirLight.direction", &dirLightVecDirection[0]);
+          modelShader.SetToVec3("dirLight.ambient", &dirLightAmbientIntensity[0]);
+          modelShader.SetToVec3("dirLight.diffuse", &dirLightDiffuseIntensity[0]);
+          modelShader.SetToVec3("dirLight.specular", &dirLightSpecularIntensity[0]);
+          modelShader.SetToVec3("u_viewPos", &camera.Position[0]);
+
 
           // GUI STUFF
           ImGui::Begin("OpenGL Settings Panel");
           ImGui::Text("Tweaks");
           ImGui::Checkbox("Draw Triangle", &drawTriangle);
-          ImGui::SliderFloat("Light Movement Radius", &radius, 1.0f, 4.0f, "%.1f");
 
           ImGui::Separator();
 
-          ImGui::Text("Edit Colors");
-          ImGui::ColorEdit3("Object Color", &colorValue[0], 0);
-          ImGui::Separator();
-
-          ImGui::Text("Edit Light Intensity");
+          ImGui::Text("Edit Directional Light");
+          ImGui::SliderFloat3("Light Direction", &dirLightVecDirection[0], 0.0f, 1.0f, "%.2f");
           ImGui::SliderFloat("Shininess", &shinyValue, 0.0f, 64.0f, 0);
           ImGui::End();
 
