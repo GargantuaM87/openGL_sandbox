@@ -125,7 +125,7 @@ int main(int, char **)
      Shader lightSourceProgram("../assets/shaders/lightSource.vert", "../assets/shaders/lightSource.frag"); // Shader program for light sources
      Shader modelShader("../assets/shaders/model.vert", "../assets/shaders/model.frag");
      
-     Model model("../assets/backpack/backpack.obj");
+     Model model("../assets/bag/bag.obj");
      Model lightSphere("../assets/sphere/source/sphere.obj");
 
 
@@ -215,6 +215,7 @@ int main(int, char **)
           glm::mat4 modelM = glm::mat4(1.0f);
           modelM = glm::translate(modelM, glm::vec3(0.0f, 0.0f, 0.0f));
           modelM = glm::scale(modelM, glm::vec3(1.0f, 1.0f, 1.0f));
+          modelM = glm::rotate(modelM, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
           modelShader.SetToMat4("model", modelM);
           model.Draw(modelShader);
 
@@ -267,7 +268,7 @@ int main(int, char **)
           ImGui::SliderFloat3("Point Diffusion", &pLightDiffuse[0], 0.0f, 1.0f, "%.2f");
           ImGui::SliderFloat3("Point Specular", &pLightSpecular[0], 0.0f, 1.0f, "%.2f");
           ImGui::End();
-
+          
           ImGui::Render();
           ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
