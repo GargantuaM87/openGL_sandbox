@@ -480,4 +480,7 @@ CMakeFiles/newProject.dir/src/main.cpp.o: \
  /home/ayinde-abrams/Documents/my_project/src/../headers/mesh.h \
  /home/ayinde-abrams/Documents/my_project/src/../headers/VAO.h \
  /home/ayinde-abrams/Documents/my_project/src/../headers/EBO.h \
- /home/ayinde-abrams/Documents/my_project/src/../include/stb/stb_image.h
+ /home/ayinde-abrams/Documents/my_project/src/../include/stb/stb_image.h \
+ /usr/include/c++/13/map /usr/include/c++/13/bits/stl_tree.h \
+ /usr/include/c++/13/bits/stl_map.h \
+ /usr/include/c++/13/bits/stl_multimap.h

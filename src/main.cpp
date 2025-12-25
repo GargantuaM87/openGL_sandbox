@@ -20,6 +20,7 @@
 #include "../include/glm/glm.hpp"
 #include "../include/glm/gtc/matrix_transform.hpp"
 #include "../include/glm/gtc/type_ptr.hpp"
+#include <map>
 
 const unsigned int width = 800;
 const unsigned int height = 800;
@@ -86,6 +87,14 @@ int main(int, char **)
          5.0f, -0.5f, 5.0f, 2.0f, 0.0f,
          -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
          5.0f, -0.5f, -5.0f, 2.0f, 2.0f};
+     float quadVertices[] = {
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f
+     };
 
      GLFWwindow *window;
 
@@ -116,6 +125,7 @@ int main(int, char **)
      cubeTexture.texUnit(depthTestProgram, "texture1", 0);
      TextureUnit floorTexture("../marble.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
      floorTexture.texUnit(depthTestProgram, "texture1", 0);
+     TextureUnit grassTexture("../blending_transparent_window.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
      // cube VAO
      unsigned int cubeVAO, cubeVBO;
@@ -141,8 +151,22 @@ int main(int, char **)
      glEnableVertexAttribArray(1);
      glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
      glBindVertexArray(0);
+     // leaf quad VAO
+     unsigned int grassQuadVAO, grassQuadVBO;
+     glGenVertexArrays(1, &grassQuadVAO);
+     glGenBuffers(1, &grassQuadVBO);
+     glBindVertexArray(grassQuadVAO);
+     glBindBuffer(GL_ARRAY_BUFFER, grassQuadVBO);
+     glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+     glEnableVertexAttribArray(0);
+     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+     glEnableVertexAttribArray(1);
+     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+     glBindVertexArray(0);
 
      glEnable(GL_DEPTH_TEST); // Allows for depth comparison and updates the depth buffer
+     glEnable(GL_BLEND); // enable alpha blending
+     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
      Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
@@ -151,6 +175,14 @@ int main(int, char **)
 
      float deltaTime = 0.0f;
      float lastFrame = 0.0f;
+
+     // grass positions
+     std::vector<glm::vec3> windows;
+     windows.push_back(glm::vec3(-1.5f,  0.0f, -0.48f));
+     windows.push_back(glm::vec3( 1.5f,  0.0f,  0.51f));
+     windows.push_back(glm::vec3( 0.0f,  0.0f,  0.7f));
+     windows.push_back(glm::vec3(-0.3f,  0.0f, -2.3f));
+     windows.push_back(glm::vec3( 0.5f,  0.0f, -0.6f));  
 
      IMGUI_CHECKVERSION();
      ImGui::CreateContext();
@@ -184,6 +216,13 @@ int main(int, char **)
           if (!io.WantCaptureMouse)
                camera.Inputs(window);
 
+          std::map<float, glm::vec3> sorted;
+          for(unsigned int i = 0; i < windows.size(); i++)
+          {
+               float distance = glm::length2(camera.Position - windows[i]);
+               sorted[distance] = windows[i];
+          }
+
            // floor
           glBindVertexArray(planeVAO);
           floorTexture.Bind();
@@ -193,7 +232,8 @@ int main(int, char **)
           floorTexture.Unbind();
           
           glm::mat4 model = glm::mat4(1.0f);
-     
+
+          // cube
           glBindVertexArray(cubeVAO);
           glActiveTexture(GL_TEXTURE0);
           cubeTexture.Bind();
@@ -206,6 +246,16 @@ int main(int, char **)
           model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
           depthTestProgram.SetToMat4("model", model);
           glDrawArrays(GL_TRIANGLES, 0, 36);
+
+          glBindVertexArray(grassQuadVAO);
+          grassTexture.Bind();
+          for(std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it) {
+               model = glm::mat4(1.0f);
+               model = glm::translate(model, glm::vec3(it->second.x, it->second.y, it->second.z + 2.5f));
+               depthTestProgram.SetToMat4("model", model);
+               glDrawArrays(GL_TRIANGLES, 0, 6);
+          }
+          glBindVertexArray(0);
           
           // GUI STUFF
           ImGui::Begin("OpenGL Settings Panel");
