@@ -31,74 +31,61 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 
 int main(int, char **)
 {
-     // Storing our values of each vertex in our coordinate space
-     GLfloat vertices[] =
-         {
-             // positions          // normals           // texture coords
-             -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
-             0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
-             0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-             0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-             -0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
-             -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+     // set up vertex data (and buffer(s)) and configure vertex attributes
+     // ------------------------------------------------------------------
+     float cubeVertices[] = {
+         // positions          // texture Coords
+         -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+         -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
 
-             -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-             0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-             0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-             0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-             -0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-             -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+         0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+         0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+         0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+         -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
+         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
 
-             -0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-             -0.5f, 0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-             -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-             -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-             -0.5f, -0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-             -0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+         -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+         -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+         -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 
-             0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-             0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-             0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-             0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-             0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-             0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+         0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 
-             -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
-             0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
-             0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-             0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-             -0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-             -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+         0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+         0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
 
-             -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-             0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-             0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-             0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-             -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-             -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f};
+         -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+         -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
+         -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
+     float planeVertices[] = {
+         // positions          
+         // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
+         5.0f, -0.5f, 5.0f, 2.0f, 0.0f,
+         -5.0f, -0.5f, 5.0f, 0.0f, 0.0f,
+         -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
 
-     glm::vec3 cubePositions[] = {
-         glm::vec3(0.0f, 0.0f, 0.0f),
-         glm::vec3(2.0f, 5.0f, -15.0f),
-         glm::vec3(-1.5f, -2.2f, -2.5f),
-         glm::vec3(-3.8f, -2.0f, -12.3f),
-         glm::vec3(2.4f, -0.4f, -3.5f),
-         glm::vec3(-1.7f, 3.0f, -7.5f),
-         glm::vec3(1.3f, -2.0f, -2.5f),
-         glm::vec3(1.5f, 2.0f, -2.5f),
-         glm::vec3(1.5f, 0.2f, -1.5f),
-         glm::vec3(-1.3f, 1.0f, -1.5f)};
-
-     // Index Buffer
-     /* GLuint indices[] =
-      {
-        0, 1, 2,
-        0, 2, 3,
-        0, 1, 4,
-        1, 2, 4,
-        2, 3, 4,
-        3, 0, 4
-      };*/
+         5.0f, -0.5f, 5.0f, 2.0f, 0.0f,
+         -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
+         5.0f, -0.5f, -5.0f, 2.0f, 2.0f};
 
      GLFWwindow *window;
 
@@ -121,39 +108,39 @@ int main(int, char **)
      }
      // Parses the fragment and vertex shader files and wraps them into a shader program
      // The files are compiled to an intermediary language then translated into specific instructions for the GPU
-     Shader shaderProgram("../assets/shaders/default.vert", "../assets/shaders/default.frag");
      Shader lightSourceProgram("../assets/shaders/lightSource.vert", "../assets/shaders/lightSource.frag"); // Shader program for light sources
-     Shader modelShader("../assets/shaders/model.vert", "../assets/shaders/model.frag");
-     
-     Model model("../assets/bag/bag.obj");
-     Model lightSphere("../assets/sphere/source/sphere.obj");
+     Shader depthTestProgram("../assets/shaders/depthTest.vert", "../assets/shaders/depthTest.frag");
+     Shader stencilTestProgram("../assets/shaders/depthTest.vert", "../assets/shaders/shaderSingleColor.frag");
 
+     TextureUnit cubeTexture("../metal.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+     cubeTexture.texUnit(depthTestProgram, "texture1", 0);
+     TextureUnit floorTexture("../marble.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+     floorTexture.texUnit(depthTestProgram, "texture1", 0);
 
-    
-
-     // Vertex Array Buffer
-     VAO VAO1;
-     VAO1.Bind(); // Tells OpenGL to activate this VAO
-     // Vertex Buffer Object
-     // Contains vertex attributes such as position and color
-     VBO VBO1(vertices, sizeof(vertices));
-     // EBO EBO1(indices, sizeof(indices)); // Responsible for storing indices on the GPU and drawing them in a specific order
-     // Creating a second geometrical object
-     VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void *)0); // Basically create a pointer to the VBO (position)
-     VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void *)(3 * sizeof(float)));
-     VAO1.LinkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void *)(6 * sizeof(float)));
-
-     // Creating our second VAO for another object
-     VAO VAO2;
-     VAO2.Bind();
-     // EBO EBO2(indices, sizeof(indices));
-     VAO2.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void *)0); // We reuse the first VBO since it already has the attributes we want
-
-     VAO1.Unbind();
-     VAO2.Unbind();
-     VBO1.Unbind();
-     // EBO1.Unbind();
-     // EBO2.Unbind();
+     // cube VAO
+     unsigned int cubeVAO, cubeVBO;
+     glGenVertexArrays(1, &cubeVAO);
+     glGenBuffers(1, &cubeVBO);
+     glBindVertexArray(cubeVAO);
+     glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
+     glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), &cubeVertices, GL_STATIC_DRAW);
+     glEnableVertexAttribArray(0);
+     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+     glEnableVertexAttribArray(1);
+     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+     glBindVertexArray(0);
+     // plane VAO
+     unsigned int planeVAO, planeVBO;
+     glGenVertexArrays(1, &planeVAO);
+     glGenBuffers(1, &planeVBO);
+     glBindVertexArray(planeVAO);
+     glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
+     glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), &planeVertices, GL_STATIC_DRAW);
+     glEnableVertexAttribArray(0);
+     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+     glEnableVertexAttribArray(1);
+     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+     glBindVertexArray(0);
 
      glEnable(GL_DEPTH_TEST); // Allows for depth comparison and updates the depth buffer
 
@@ -173,20 +160,6 @@ int main(int, char **)
      ImGui_ImplGlfw_InitForOpenGL(window, true);
      ImGui_ImplOpenGL3_Init("#version 330");
 
-     // ImGui Variables
-     bool drawTriangle = true;
-     glm::vec3 colorValue = {1.0f, 1.0f, 1.0f};
-
-     glm::vec3 dirLightAmbientIntensity = {0.05f, 0.05f, 0.05f};
-     glm::vec3 dirLightDiffuseIntensity = {0.4f, 0.4f, 0.4f};
-     glm::vec3 dirLightSpecularIntensity = {0.1f, 0.1f, 0.1f};
-     glm::vec3 dirLightVecDirection = {-0.2f, -1.0f, -0.3f};
-
-     glm::vec3 pLightAmbient(0.6f);
-     glm::vec3 pLightDiffuse(0.8f);
-     glm::vec3 pLightSpecular(1.0f);
-     float shinyValue = 32.0f;
-
      glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
      // Main Render Loop
@@ -196,7 +169,7 @@ int main(int, char **)
           glClearColor(0.0f, 0.0f, 0.15f, 1.0f);
           // Clean the back buffer and assign the new color to it and update the depth buffer
           glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+          
           ImGui_ImplOpenGL3_NewFrame();
           ImGui_ImplGlfw_NewFrame();
           ImGui::NewFrame();
@@ -205,70 +178,41 @@ int main(int, char **)
           deltaTime = crntFrame - lastFrame;
           lastFrame = crntFrame;
 
-          // Tell OpenGL which shader program we want to use
-          modelShader.Activate();
+          depthTestProgram.Activate();
+          camera.Matrix(45.0f, 0.1f, 100.0f, depthTestProgram, "camMatrix");
 
           if (!io.WantCaptureMouse)
                camera.Inputs(window);
-          camera.Matrix(45.0f, 0.1f, 100.0f, modelShader, "camMatrix");
 
-          glm::mat4 modelM = glm::mat4(1.0f);
-          modelM = glm::translate(modelM, glm::vec3(0.0f, 0.0f, 0.0f));
-          modelM = glm::scale(modelM, glm::vec3(1.0f, 1.0f, 1.0f));
-          modelM = glm::rotate(modelM, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-          modelShader.SetToMat4("model", modelM);
-          model.Draw(modelShader);
-
-          lightPos.x = cos(crntFrame) * radius;
-          lightPos.y = sin(crntFrame) * radius;
-
-          // Directional Light Uniforms
-          modelShader.SetToFloat("u_mat.shininess", shinyValue);
-          modelShader.SetToVec3("dirLight.direction", &dirLightVecDirection[0]);
-          modelShader.SetToVec3("dirLight.ambient", &dirLightAmbientIntensity[0]);
-          modelShader.SetToVec3("dirLight.diffuse", &dirLightDiffuseIntensity[0]);
-          modelShader.SetToVec3("dirLight.specular", &dirLightSpecularIntensity[0]);
-          modelShader.SetToVec3("u_viewPos", &camera.Position[0]);
-          // Point Light Uniforms
-          modelShader.SetToVec3("pointLight.position", &lightPos[0]);
-          modelShader.SetToVec3("pointLight.ambient", &pLightAmbient[0]);
-          modelShader.SetToVec3("pointLight.diffuse", &pLightDiffuse[0]);
-          modelShader.SetToVec3("pointLight.specular", &pLightSpecular[0]);
-          modelShader.SetToFloat("pointLight.constant", 1.0f);
-          modelShader.SetToFloat("pointLight.linear", 0.09f);
-          modelShader.SetToFloat("pointLight.quadratic", 0.032f);
-
-
-          lightSourceProgram.Activate();
-          camera.Matrix(45.0f, 0.1f, 100.0f, lightSourceProgram, "camMatrix");
-
-          glm::mat4 lightModel = glm::mat4(1.0f);
-          lightModel = glm::translate(lightModel, lightPos);
-          lightModel = glm::scale(lightModel, glm::vec3(0.15f, 0.15f, 0.15f));
+           // floor
+          glBindVertexArray(planeVAO);
+          floorTexture.Bind();
+          glm::mat4 floorModel = glm::mat4(1.0f);
+          depthTestProgram.SetToMat4("model", floorModel);
+          glDrawArrays(GL_TRIANGLES, 0, 6);
+          floorTexture.Unbind();
           
+          glm::mat4 model = glm::mat4(1.0f);
+     
+          glBindVertexArray(cubeVAO);
+          glActiveTexture(GL_TEXTURE0);
+          cubeTexture.Bind();
 
-          lightSourceProgram.SetToMat4("model", lightModel);
-          lightSphere.Draw(lightSourceProgram);
+          model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
+          depthTestProgram.SetToMat4("model", model);
+          glDrawArrays(GL_TRIANGLES, 0, 36);
 
+          model = glm::mat4(1.0f);
+          model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
+          depthTestProgram.SetToMat4("model", model);
+          glDrawArrays(GL_TRIANGLES, 0, 36);
+          
           // GUI STUFF
           ImGui::Begin("OpenGL Settings Panel");
           ImGui::Text("Tweaks");
-          ImGui::Checkbox("Draw Triangle", &drawTriangle);
-
-          ImGui::Separator();
-
-          ImGui::Text("Edit Directional Light");
-          ImGui::SliderFloat3("Light Direction", &dirLightVecDirection[0], 0.0f, 1.0f, "%.2f");
-          ImGui::SliderFloat("Shininess", &shinyValue, 0.0f, 64.0f, 0);
-
-          ImGui::Separator();
-
-          ImGui::Text("Edit Point Light");
-          ImGui::SliderFloat3("Point Ambience", &pLightAmbient[0], 0.0f, 1.0f, "%.2f");
-          ImGui::SliderFloat3("Point Diffusion", &pLightDiffuse[0], 0.0f, 1.0f, "%.2f");
-          ImGui::SliderFloat3("Point Specular", &pLightSpecular[0], 0.0f, 1.0f, "%.2f");
+     
           ImGui::End();
-          
+
           ImGui::Render();
           ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -282,16 +226,10 @@ int main(int, char **)
      ImGui_ImplGlfw_Shutdown();
      ImGui::DestroyContext();
 
-     // Deleting objects (memory management!)
-     VAO1.Delete();
-     VAO2.Delete();
-     VBO1.Delete();
-     // EBO1.Delete();
-     // EBO2.Delete();
-     shaderProgram.Delete();
-     lightSourceProgram.Delete();
-     // diffuseMap.Delete();
-     // specularMap.Delete();
+     glDeleteVertexArrays(1, &cubeVAO);
+     glDeleteVertexArrays(1, &planeVAO);
+     glDeleteBuffers(1, &cubeVBO);
+     glDeleteBuffers(1, &planeVBO);
 
      glfwTerminate();
      return 0;
