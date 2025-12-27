@@ -35,65 +35,68 @@ int main(int, char **)
      // set up vertex data (and buffer(s)) and configure vertex attributes
      // ------------------------------------------------------------------
      float cubeVertices[] = {
-         // positions          // texture Coords
-         -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-         -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-
-         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-         0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-         0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-         0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-         -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-
-         -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-         -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-         -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-
-         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-         0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-         0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-
-         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
-         0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-         0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-
-         -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-         -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
-         -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
+    // Back face
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // Bottom-left
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f, // bottom-right         
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // bottom-left
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // top-left
+    // Front face
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-right
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, // top-right
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, // top-right
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, // top-left
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left
+    // Left face
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-right
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-left
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-left
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-left
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-right
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-right
+    // Right face
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-left
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-right
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right         
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-right
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-left
+     0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left     
+    // Bottom face
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // top-right
+     0.5f, -0.5f, -0.5f,  1.0f, 1.0f, // top-left
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-left
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-left
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-right
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // top-right
+    // Top face
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // top-left
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // bottom-right
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right     
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // bottom-right
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // top-left
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f  // bottom-left
+     };
      float planeVertices[] = {
          // positions          
          // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
          5.0f, -0.5f, 5.0f, 2.0f, 0.0f,
+         -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
          -5.0f, -0.5f, 5.0f, 0.0f, 0.0f,
+         
+         5.0f, -0.5f, -5.0f, 2.0f, 2.0f,
          -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
-
          5.0f, -0.5f, 5.0f, 2.0f, 0.0f,
-         -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
-         5.0f, -0.5f, -5.0f, 2.0f, 2.0f};
+         
+     };
      float quadVertices[] = {
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-right
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f, // top-right
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f, // top-right
+        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, // top-left
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left
      };
 
      GLFWwindow *window;
@@ -127,44 +130,30 @@ int main(int, char **)
      floorTexture.texUnit(depthTestProgram, "texture1", 0);
      TextureUnit grassTexture("../blending_transparent_window.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
-     // cube VAO
-     unsigned int cubeVAO, cubeVBO;
-     glGenVertexArrays(1, &cubeVAO);
-     glGenBuffers(1, &cubeVBO);
-     glBindVertexArray(cubeVAO);
-     glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
-     glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), &cubeVertices, GL_STATIC_DRAW);
-     glEnableVertexAttribArray(0);
-     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
-     glEnableVertexAttribArray(1);
-     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
-     glBindVertexArray(0);
-     // plane VAO
-     unsigned int planeVAO, planeVBO;
-     glGenVertexArrays(1, &planeVAO);
-     glGenBuffers(1, &planeVBO);
-     glBindVertexArray(planeVAO);
-     glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
-     glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), &planeVertices, GL_STATIC_DRAW);
-     glEnableVertexAttribArray(0);
-     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
-     glEnableVertexAttribArray(1);
-     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
-     glBindVertexArray(0);
-     // leaf quad VAO
-     unsigned int grassQuadVAO, grassQuadVBO;
-     glGenVertexArrays(1, &grassQuadVAO);
-     glGenBuffers(1, &grassQuadVBO);
-     glBindVertexArray(grassQuadVAO);
-     glBindBuffer(GL_ARRAY_BUFFER, grassQuadVBO);
-     glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-     glEnableVertexAttribArray(0);
-     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
-     glEnableVertexAttribArray(1);
-     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-     glBindVertexArray(0);
+     // cube geometry 
+     VAO cubeVAO;
+     VBO cubeVBO(cubeVertices, sizeof(cubeVertices));
+     cubeVAO.Bind();
+     cubeVAO.LinkAttrib(cubeVBO, 0, 3, GL_FLOAT, 5 * sizeof(float), (void*)0);
+     cubeVAO.LinkAttrib(cubeVBO, 1, 2, GL_FLOAT, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+     cubeVAO.Unbind();
+     // plane geometry
+     VAO planeVAO;
+     VBO planeVBO(planeVertices, sizeof(planeVertices));
+     planeVAO.Bind();
+     planeVAO.LinkAttrib(planeVBO, 0, 3, GL_FLOAT, 5 * sizeof(float), (void*)0);
+     planeVAO.LinkAttrib(planeVBO, 1, 2, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+     planeVAO.Unbind();
+     // quad geometry
+     VAO quadVAO;
+     VBO quadVBO(quadVertices, sizeof(quadVertices));
+     quadVAO.Bind();
+     quadVAO.LinkAttrib(quadVBO, 0, 3, GL_FLOAT, 5 * sizeof(float), (void*)0);
+     quadVAO.LinkAttrib(quadVBO, 1, 2, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+     quadVAO.Unbind();
 
      glEnable(GL_DEPTH_TEST); // Allows for depth comparison and updates the depth buffer
+     glEnable(GL_CULL_FACE);
      glEnable(GL_BLEND); // enable alpha blending
      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -224,7 +213,7 @@ int main(int, char **)
           }
 
            // floor
-          glBindVertexArray(planeVAO);
+          planeVAO.Bind();
           floorTexture.Bind();
           glm::mat4 floorModel = glm::mat4(1.0f);
           depthTestProgram.SetToMat4("model", floorModel);
@@ -234,7 +223,7 @@ int main(int, char **)
           glm::mat4 model = glm::mat4(1.0f);
 
           // cube
-          glBindVertexArray(cubeVAO);
+          cubeVAO.Bind();
           glActiveTexture(GL_TEXTURE0);
           cubeTexture.Bind();
 
@@ -247,7 +236,7 @@ int main(int, char **)
           depthTestProgram.SetToMat4("model", model);
           glDrawArrays(GL_TRIANGLES, 0, 36);
 
-          glBindVertexArray(grassQuadVAO);
+          quadVAO.Bind();
           grassTexture.Bind();
           for(std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it) {
                model = glm::mat4(1.0f);
@@ -276,11 +265,13 @@ int main(int, char **)
      ImGui_ImplGlfw_Shutdown();
      ImGui::DestroyContext();
 
-     glDeleteVertexArrays(1, &cubeVAO);
-     glDeleteVertexArrays(1, &planeVAO);
-     glDeleteBuffers(1, &cubeVBO);
-     glDeleteBuffers(1, &planeVBO);
-
+     cubeVAO.Delete();
+     cubeVBO.Delete();
+     planeVAO.Delete();
+     planeVBO.Delete();
+     quadVAO.Delete();
+     quadVBO.Delete();
+     
      glfwTerminate();
      return 0;
 }
