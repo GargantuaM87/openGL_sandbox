@@ -91,12 +91,14 @@ int main(int, char **)
          
      };
      float quadVertices[] = {
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-right
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f, // top-right
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f, // top-right
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, // top-left
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left
+          // positions     // texCoords
+          -1.0f,  1.0f,  0.0f, 1.0f,
+          -1.0f, -1.0f,  0.0f, 0.0f,
+           1.0f, -1.0f,  1.0f, 0.0f,
+
+          -1.0f,  1.0f,  0.0f, 1.0f,
+          1.0f, -1.0f,  1.0f, 0.0f,
+          1.0f,  1.0f,  1.0f, 1.0f
      };
 
      GLFWwindow *window;
@@ -118,12 +120,12 @@ int main(int, char **)
           glfwTerminate();
           return -1;
      }
-     // Parses the fragment and vertex shader files and wraps them into a shader program
-     // The files are compiled to an intermediary language then translated into specific instructions for the GPU
+     // shaders
      Shader lightSourceProgram("../assets/shaders/lightSource.vert", "../assets/shaders/lightSource.frag"); // Shader program for light sources
      Shader depthTestProgram("../assets/shaders/depthTest.vert", "../assets/shaders/depthTest.frag");
-     Shader stencilTestProgram("../assets/shaders/depthTest.vert", "../assets/shaders/shaderSingleColor.frag");
-
+     Shader simpleShader("../assets/shaders/simple.vert", "../assets/shaders/simple.frag");
+     
+     // textures
      TextureUnit cubeTexture("../metal.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
      cubeTexture.texUnit(depthTestProgram, "texture1", 0);
      TextureUnit floorTexture("../marble.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
@@ -148,14 +150,42 @@ int main(int, char **)
      VAO quadVAO;
      VBO quadVBO(quadVertices, sizeof(quadVertices));
      quadVAO.Bind();
-     quadVAO.LinkAttrib(quadVBO, 0, 3, GL_FLOAT, 5 * sizeof(float), (void*)0);
-     quadVAO.LinkAttrib(quadVBO, 1, 2, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+     quadVAO.LinkAttrib(quadVBO, 0, 2, GL_FLOAT, 4 * sizeof(float), (void*)0);
+     quadVAO.LinkAttrib(quadVBO, 1, 2, GL_FLOAT, 4 * sizeof(float), (void*)(2 * sizeof(float)));
      quadVAO.Unbind();
+
+     // frame buffer
+     unsigned int fbo;
+     glGenFramebuffers(1, &fbo);
+     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+     // texture for frame buffer
+     unsigned int texture;
+     glGenTextures(1, &texture);
+     glBindTexture(GL_TEXTURE_2D, texture);
+     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 800, 800, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+     glBindTexture(GL_TEXTURE_2D, 0); 
+
+     // render buffer
+     unsigned int rbo;
+     glGenRenderbuffers(1, &rbo);
+     glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 800);
+     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+     glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
+     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) 
+          std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 
      glEnable(GL_DEPTH_TEST); // Allows for depth comparison and updates the depth buffer
      glEnable(GL_CULL_FACE);
-     glEnable(GL_BLEND); // enable alpha blending
-     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // glEnable(GL_BLEND); // enable alpha blending
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
      Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
@@ -186,10 +216,12 @@ int main(int, char **)
      // Main Render Loop
      while (!glfwWindowShouldClose(window))
      {
-          // Specify color of background
+          glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+          glEnable(GL_DEPTH_TEST);
+
           glClearColor(0.0f, 0.0f, 0.15f, 1.0f);
-          // Clean the back buffer and assign the new color to it and update the depth buffer
           glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+          
           
           ImGui_ImplOpenGL3_NewFrame();
           ImGui_ImplGlfw_NewFrame();
@@ -205,12 +237,12 @@ int main(int, char **)
           if (!io.WantCaptureMouse)
                camera.Inputs(window);
 
-          std::map<float, glm::vec3> sorted;
+          /*std::map<float, glm::vec3> sorted;
           for(unsigned int i = 0; i < windows.size(); i++)
           {
                float distance = glm::length2(camera.Position - windows[i]);
                sorted[distance] = windows[i];
-          }
+          }*/
 
            // floor
           planeVAO.Bind();
@@ -236,15 +268,24 @@ int main(int, char **)
           depthTestProgram.SetToMat4("model", model);
           glDrawArrays(GL_TRIANGLES, 0, 36);
 
-          quadVAO.Bind();
+          /*quadVAO.Bind();
           grassTexture.Bind();
           for(std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it) {
                model = glm::mat4(1.0f);
                model = glm::translate(model, glm::vec3(it->second.x, it->second.y, it->second.z + 2.5f));
                depthTestProgram.SetToMat4("model", model);
                glDrawArrays(GL_TRIANGLES, 0, 6);
-          }
-          glBindVertexArray(0);
+          }*/
+
+          glBindFramebuffer(GL_FRAMEBUFFER, 0);
+          glDisable(GL_DEPTH_TEST);
+          glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+          glClear(GL_COLOR_BUFFER_BIT);
+
+          simpleShader.Activate();
+          quadVAO.Bind();
+          glBindTexture(GL_TEXTURE_2D, texture);
+          glDrawArrays(GL_TRIANGLES, 0, 6);
           
           // GUI STUFF
           ImGui::Begin("OpenGL Settings Panel");
@@ -271,6 +312,8 @@ int main(int, char **)
      planeVBO.Delete();
      quadVAO.Delete();
      quadVBO.Delete();
+     glDeleteRenderbuffers(1, &rbo);
+     glDeleteFramebuffers(1, &fbo);
      
      glfwTerminate();
      return 0;
