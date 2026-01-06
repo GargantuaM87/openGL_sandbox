@@ -3,11 +3,12 @@ layout (location = 0) in vec3 aPos;
 
 out vec3 TexCoords;
 
-uniform mat4 camMatrix;
-uniform mat4 modelMatrix;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 proj;
 
 void main()
 {
     TexCoords = vec3(aPos.x, -aPos.y, aPos.z);
-    gl_Position = camMatrix * modelMatrix * vec4(aPos, 1.0);
+    gl_Position = proj * view * model * vec4(aPos, 1.0);
 }

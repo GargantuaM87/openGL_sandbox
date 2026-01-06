@@ -315,19 +315,30 @@ int main(int, char **)
           float crntFrame = glfwGetTime();
           deltaTime = crntFrame - lastFrame;
           lastFrame = crntFrame;
-
+          // Sky Box
           glDepthMask(GL_FALSE);
           skyboxShader.Activate();
-          camera.Matrix(45.0f, 0.1f, 100.0f, skyboxShader, "camMatrix");
+          camera.Matrix(45.0f, 0.1f, 100.0f);
           glm::mat4 skyboxModel = glm::mat4(1.0f);
-          skyboxShader.SetToMat4("modelMatrix", skyboxModel);
+          glm::mat4 skyboxView = glm::mat4(glm::mat3(camera.GetViewMatrix()));
+          glm::mat4 skyboxProj = camera.GetProjMatrix();
+          skyboxModel = glm::scale(skyboxModel, glm::vec3(20.0));
+          skyboxShader.SetToMat4("proj", skyboxProj);
+          skyboxShader.SetToMat4("view", skyboxView);
+          skyboxShader.SetToMat4("model", skyboxModel);
           skyboxVAO.Bind();
           glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
           glDrawArrays(GL_TRIANGLES, 0, 36);
           glDepthMask(GL_TRUE);
 
+          // Geometry
           lightSourceProgram.Activate();
-          camera.Matrix(45.0f, 0.1f, 100.0f, lightSourceProgram, "camMatrix");
+          camera.Matrix(45.0f, 0.1f, 100.0f);
+          glm::mat4 viewMat = camera.GetViewMatrix();
+          glm::mat4 projMat = camera.GetProjMatrix();
+          lightSourceProgram.SetToMat4("view", viewMat);
+          lightSourceProgram.SetToMat4("proj", projMat);
+
 
           if (!io.WantCaptureMouse)
                camera.Inputs(window);
