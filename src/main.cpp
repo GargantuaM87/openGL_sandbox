@@ -25,6 +25,37 @@
 const unsigned int width = 800;
 const unsigned int height = 800;
 
+unsigned int LoadCubeMap(std::vector<std::string> faces)
+{
+     unsigned int textureID;
+     glGenTextures(1, &textureID);
+     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+
+     int width, height, nrChannels;
+     for(unsigned int i = 0; i < faces.size(); i++)
+     {
+          unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
+          if(data)
+          {
+               glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+               stbi_image_free(data);
+          }
+          else
+          {
+               std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
+               stbi_image_free(data);
+          }
+     }
+
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    return textureID;
+}
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
      glViewport(0, 0, width, height);
@@ -100,7 +131,50 @@ int main(int, char **)
           1.0f, -1.0f,  1.0f, 0.0f,
           1.0f,  1.0f,  1.0f, 1.0f
      };
+     float skyboxVertices[] = {
+    // positions          
+    -1.0f,  1.0f, -1.0f,
+    -1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+     1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f, -1.0f,
 
+    -1.0f, -1.0f,  1.0f,
+    -1.0f, -1.0f, -1.0f,
+    -1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f,  1.0f,
+    -1.0f, -1.0f,  1.0f,
+
+     1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+
+    -1.0f, -1.0f,  1.0f,
+    -1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f, -1.0f,  1.0f,
+    -1.0f, -1.0f,  1.0f,
+
+    -1.0f,  1.0f, -1.0f,
+     1.0f,  1.0f, -1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+    -1.0f,  1.0f,  1.0f,
+    -1.0f,  1.0f, -1.0f,
+
+    -1.0f, -1.0f, -1.0f,
+    -1.0f, -1.0f,  1.0f,
+     1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+    -1.0f, -1.0f,  1.0f,
+     1.0f, -1.0f,  1.0f
+};
      GLFWwindow *window;
 
      if (!glfwInit())
@@ -122,15 +196,16 @@ int main(int, char **)
      }
      // shaders
      Shader lightSourceProgram("../assets/shaders/lightSource.vert", "../assets/shaders/lightSource.frag"); // Shader program for light sources
-     Shader depthTestProgram("../assets/shaders/depthTest.vert", "../assets/shaders/depthTest.frag");
      Shader simpleShader("../assets/shaders/simple.vert", "../assets/shaders/simple.frag");
+     Shader skyboxShader("../assets/shaders/skybox.vert", "../assets/shaders/skybox.frag");
      
      // textures
-     TextureUnit cubeTexture("../metal.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-     cubeTexture.texUnit(depthTestProgram, "texture1", 0);
+     TextureUnit cubeTexture("../container.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
      TextureUnit floorTexture("../marble.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-     floorTexture.texUnit(depthTestProgram, "texture1", 0);
-     TextureUnit grassTexture("../blending_transparent_window.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+     // cubemap texture
+     unsigned int texID;
+     glGenTextures(1, &texID);
+     glBindTexture(GL_TEXTURE_CUBE_MAP, texID);
 
      // cube geometry 
      VAO cubeVAO;
@@ -153,6 +228,13 @@ int main(int, char **)
      quadVAO.LinkAttrib(quadVBO, 0, 2, GL_FLOAT, 4 * sizeof(float), (void*)0);
      quadVAO.LinkAttrib(quadVBO, 1, 2, GL_FLOAT, 4 * sizeof(float), (void*)(2 * sizeof(float)));
      quadVAO.Unbind();
+     // skybox geometry
+     VAO skyboxVAO;
+     VBO skyboxVBO(skyboxVertices, sizeof(skyboxVertices));
+     skyboxVAO.Bind();
+     skyboxVAO.LinkAttrib(skyboxVBO, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
+     skyboxVAO.Unbind();
+
 
      // frame buffer
      unsigned int fbo;
@@ -194,14 +276,17 @@ int main(int, char **)
 
      float deltaTime = 0.0f;
      float lastFrame = 0.0f;
-
-     // grass positions
-     std::vector<glm::vec3> windows;
-     windows.push_back(glm::vec3(-1.5f,  0.0f, -0.48f));
-     windows.push_back(glm::vec3( 1.5f,  0.0f,  0.51f));
-     windows.push_back(glm::vec3( 0.0f,  0.0f,  0.7f));
-     windows.push_back(glm::vec3(-0.3f,  0.0f, -2.3f));
-     windows.push_back(glm::vec3( 0.5f,  0.0f, -0.6f));  
+     
+     // cubemap textures
+     std::vector<std::string> cubemaps = {
+          "../assets/skybox/left.jpg",
+          "../assets/skybox/right.jpg",
+          "../assets/skybox/bottom.jpg",
+          "../assets/skybox/top.jpg",
+          "../assets/skybox/back.jpg",
+           "../assets/skybox/front.jpg"
+     };
+     unsigned int cubemapTexture = LoadCubeMap(cubemaps);
 
      IMGUI_CHECKVERSION();
      ImGui::CreateContext();
@@ -231,26 +316,29 @@ int main(int, char **)
           deltaTime = crntFrame - lastFrame;
           lastFrame = crntFrame;
 
-          depthTestProgram.Activate();
-          camera.Matrix(45.0f, 0.1f, 100.0f, depthTestProgram, "camMatrix");
+          glDepthMask(GL_FALSE);
+          skyboxShader.Activate();
+          camera.Matrix(45.0f, 0.1f, 100.0f, skyboxShader, "camMatrix");
+          glm::mat4 skyboxModel = glm::mat4(1.0f);
+          skyboxShader.SetToMat4("modelMatrix", skyboxModel);
+          skyboxVAO.Bind();
+          glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+          glDrawArrays(GL_TRIANGLES, 0, 36);
+          glDepthMask(GL_TRUE);
+
+          lightSourceProgram.Activate();
+          camera.Matrix(45.0f, 0.1f, 100.0f, lightSourceProgram, "camMatrix");
 
           if (!io.WantCaptureMouse)
                camera.Inputs(window);
 
-          /*std::map<float, glm::vec3> sorted;
-          for(unsigned int i = 0; i < windows.size(); i++)
-          {
-               float distance = glm::length2(camera.Position - windows[i]);
-               sorted[distance] = windows[i];
-          }*/
-
            // floor
-          planeVAO.Bind();
+         /* planeVAO.Bind();
           floorTexture.Bind();
           glm::mat4 floorModel = glm::mat4(1.0f);
-          depthTestProgram.SetToMat4("model", floorModel);
+          lightSourceProgram.SetToMat4("model", floorModel);
           glDrawArrays(GL_TRIANGLES, 0, 6);
-          floorTexture.Unbind();
+          floorTexture.Unbind();*/
           
           glm::mat4 model = glm::mat4(1.0f);
 
@@ -260,22 +348,14 @@ int main(int, char **)
           cubeTexture.Bind();
 
           model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
-          depthTestProgram.SetToMat4("model", model);
+          lightSourceProgram.SetToMat4("model", model);
           glDrawArrays(GL_TRIANGLES, 0, 36);
 
           model = glm::mat4(1.0f);
           model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
-          depthTestProgram.SetToMat4("model", model);
+          lightSourceProgram.SetToMat4("model", model);
           glDrawArrays(GL_TRIANGLES, 0, 36);
 
-          /*quadVAO.Bind();
-          grassTexture.Bind();
-          for(std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it) {
-               model = glm::mat4(1.0f);
-               model = glm::translate(model, glm::vec3(it->second.x, it->second.y, it->second.z + 2.5f));
-               depthTestProgram.SetToMat4("model", model);
-               glDrawArrays(GL_TRIANGLES, 0, 6);
-          }*/
 
           glBindFramebuffer(GL_FRAMEBUFFER, 0);
           glDisable(GL_DEPTH_TEST);
