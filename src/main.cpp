@@ -37,7 +37,7 @@ unsigned int LoadCubeMap(std::vector<std::string> faces)
           unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
           if(data)
           {
-               glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+               glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
                stbi_image_free(data);
           }
           else
@@ -286,7 +286,16 @@ int main(int, char **)
           "../assets/skybox/back.jpg",
            "../assets/skybox/front.jpg"
      };
-     unsigned int cubemapTexture = LoadCubeMap(cubemaps);
+
+     std::vector<std::string> nCubemaps = {
+          "../assets/stylizedSkybox/nx.png",
+          "../assets/stylizedSkybox/px.png",
+           "../assets/stylizedSkybox/ny.png",
+           "../assets/stylizedSkybox/py.png",
+          "../assets/stylizedSkybox/nz.png",
+          "../assets/stylizedSkybox/pz.png"
+     };
+     unsigned int cubemapTexture = LoadCubeMap(nCubemaps);
 
      IMGUI_CHECKVERSION();
      ImGui::CreateContext();
