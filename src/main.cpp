@@ -175,10 +175,10 @@ int main(int, char **)
      1.0f, -1.0f,  1.0f
 };
      float points[] = {
-          -0.5f,  0.5f, // top-left
-	      0.5f,  0.5f, // top-right
-	      0.5f, -0.5f, // bottom-right
-	     -0.5f, -0.5f  // bottom-left
+         -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, // top-left
+          0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // top-right
+          0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // bottom-right
+         -0.5f, -0.5f, 1.0f, 1.0f, 0.0f  // bottom-left
      };
      GLFWwindow *window;
 
@@ -203,7 +203,9 @@ int main(int, char **)
      Shader mainShader("../assets/shaders/lightSource.vert", "../assets/shaders/lightSource.frag"); // Shader program for light sources
      Shader simpleShader("../assets/shaders/simple.vert", "../assets/shaders/simple.frag");
      Shader skyboxShader("../assets/shaders/skybox.vert", "../assets/shaders/skybox.frag");
+     Shader modelShader("../assets/shaders/model.vert", "../assets/shaders/model.frag");
      Shader pointShader("../assets/shaders/points.vert", "../assets/shaders/points.frag");
+     pointShader.LinkGeometry("../assets/shaders/points.geom");
      // textures
      TextureUnit cubeTexture("../container.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
      TextureUnit floorTexture("../marble.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
@@ -212,7 +214,7 @@ int main(int, char **)
      glGenTextures(1, &texID);
      glBindTexture(GL_TEXTURE_CUBE_MAP, texID);
      // models
-     Model bag("../assets/bag/bag.obj");
+     Model bag("../assets/backpack/backpack.obj");
 
      // cube geometry 
      VAO cubeVAO;
@@ -245,7 +247,8 @@ int main(int, char **)
      VAO pointsVAO;
      VBO pointsVBO(points, sizeof(points));
      pointsVAO.Bind();
-     pointsVAO.LinkAttrib(pointsVBO, 0, 2, GL_FLOAT, 2 * sizeof(float), (void*)0);
+     pointsVAO.LinkAttrib(pointsVBO, 0, 2, GL_FLOAT, 5 * sizeof(float), (void*)0);
+     pointsVAO.LinkAttrib(pointsVBO, 1, 3, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
      pointsVAO.Unbind();
 
      // frame buffer
@@ -362,10 +365,22 @@ int main(int, char **)
                camera.Inputs(window);
           camera.Matrix(45.0f, 0.1f, 100.0f);
 
+          glm::mat4 model = glm::mat4(1.0f);
+          glm::mat4 view = glm::mat4(camera.GetViewMatrix());
+          glm::mat4 proj =  glm::mat4(camera.GetProjMatrix());
+          modelShader.Activate();
+
+          modelShader.SetToMat4("projection", proj); 
+          modelShader.SetToMat4("view", view);
+          modelShader.SetToMat4("model", model);
+          bag.Draw(modelShader);
+
           pointShader.Activate();
-          pointsVAO.Bind();
-          glDrawArrays(GL_POINTS, 0, 4);
-          pointsVAO.Unbind();
+          pointShader.SetToMat4("projection", proj);
+          pointShader.SetToMat4("view", view);
+          pointShader.SetToMat4("model", model);
+          bag.Draw(pointShader);
+
 
           // filling in more data for the uniform buffer object
           /*glBindBuffer(GL_UNIFORM_BUFFER, ubo);
