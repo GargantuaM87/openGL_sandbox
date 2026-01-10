@@ -174,6 +174,12 @@ int main(int, char **)
     -1.0f, -1.0f,  1.0f,
      1.0f, -1.0f,  1.0f
 };
+     float points[] = {
+          -0.5f,  0.5f, // top-left
+	      0.5f,  0.5f, // top-right
+	      0.5f, -0.5f, // bottom-right
+	     -0.5f, -0.5f  // bottom-left
+     };
      GLFWwindow *window;
 
      if (!glfwInit())
@@ -197,6 +203,7 @@ int main(int, char **)
      Shader mainShader("../assets/shaders/lightSource.vert", "../assets/shaders/lightSource.frag"); // Shader program for light sources
      Shader simpleShader("../assets/shaders/simple.vert", "../assets/shaders/simple.frag");
      Shader skyboxShader("../assets/shaders/skybox.vert", "../assets/shaders/skybox.frag");
+     Shader pointShader("../assets/shaders/points.vert", "../assets/shaders/points.frag");
      // textures
      TextureUnit cubeTexture("../container.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
      TextureUnit floorTexture("../marble.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
@@ -234,7 +241,12 @@ int main(int, char **)
      skyboxVAO.Bind();
      skyboxVAO.LinkAttrib(skyboxVBO, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
      skyboxVAO.Unbind();
-
+     // points geometry
+     VAO pointsVAO;
+     VBO pointsVBO(points, sizeof(points));
+     pointsVAO.Bind();
+     pointsVAO.LinkAttrib(pointsVBO, 0, 2, GL_FLOAT, 2 * sizeof(float), (void*)0);
+     pointsVAO.Unbind();
 
      // frame buffer
      unsigned int fbo;
@@ -349,8 +361,14 @@ int main(int, char **)
            if (!io.WantCaptureMouse)
                camera.Inputs(window);
           camera.Matrix(45.0f, 0.1f, 100.0f);
+
+          pointShader.Activate();
+          pointsVAO.Bind();
+          glDrawArrays(GL_POINTS, 0, 4);
+          pointsVAO.Unbind();
+
           // filling in more data for the uniform buffer object
-          glBindBuffer(GL_UNIFORM_BUFFER, ubo);
+          /*glBindBuffer(GL_UNIFORM_BUFFER, ubo);
           glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(camera.GetViewMatrix()));
           glBindBuffer(GL_UNIFORM_BUFFER, 0);
           
@@ -391,7 +409,7 @@ int main(int, char **)
           glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
           glDrawArrays(GL_TRIANGLES, 0, 36);
           glDepthFunc(GL_LESS);
-          skyboxVAO.Unbind();
+          skyboxVAO.Unbind();*/
 
 
           glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -430,8 +448,11 @@ int main(int, char **)
      planeVBO.Delete();
      quadVAO.Delete();
      quadVBO.Delete();
+     pointsVAO.Delete();
+     pointsVBO.Delete();
      glDeleteRenderbuffers(1, &rbo);
      glDeleteFramebuffers(1, &fbo);
+     glDeleteBuffers(1, &ubo);
      
      glfwTerminate();
      return 0;
