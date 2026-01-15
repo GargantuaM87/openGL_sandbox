@@ -11,6 +11,8 @@
 class Model
 {
     public:
+        std::vector<Mesh> meshes;
+        std::vector<Texture> textures_loaded;
         Model(char *path) 
         {
             LoadModel(path);
@@ -18,9 +20,8 @@ class Model
         void Draw(Shader &shader);
     private:
         // model data
-        std::vector<Mesh> meshes;
+        
         std::string directory;
-        std::vector<Texture> textures_loaded;
 
         void LoadModel(std::string path);
         void ProcessNode(aiNode *node, const aiScene *scene);

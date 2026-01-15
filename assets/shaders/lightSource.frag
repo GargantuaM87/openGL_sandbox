@@ -14,5 +14,5 @@ void main()
    //vec3 reflection = reflect(incident, normalize(Normal));
    vec3 reflection = refract(incident, normalize(Normal), refractRatio);
    reflection = vec3(reflection.x, -reflection.y, reflection.z);
-   FragColor = vec4(texture(skybox, reflection).rgb, 1.0);
+   FragColor = vec4(1.0f, 0.0f, 1.0f, 1.0f);
 }

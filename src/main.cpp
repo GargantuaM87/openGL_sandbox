@@ -108,18 +108,16 @@ int main(int, char **)
     -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
     -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
      };
-     float planeVertices[] = {
-         // positions          
-         // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
-         5.0f, -0.5f, 5.0f, 2.0f, 0.0f,
-         -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
-         -5.0f, -0.5f, 5.0f, 0.0f, 0.0f,
-         
-         5.0f, -0.5f, -5.0f, 2.0f, 2.0f,
-         -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
-         5.0f, -0.5f, 5.0f, 2.0f, 0.0f,
-         
-     };
+     float squareVertices[] = {
+     // positions     // colors
+          -0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
+          0.05f, -0.05f,  0.0f, 1.0f, 0.0f,
+          -0.05f, -0.05f,  0.0f, 0.0f, 1.0f,
+
+          -0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
+          0.05f, -0.05f,  0.0f, 1.0f, 0.0f,   
+          0.05f,  0.05f,  0.0f, 1.0f, 1.0f		    		
+     };  
      float quadVertices[] = {
           // positions     // texCoords
           -1.0f,  1.0f,  0.0f, 1.0f,
@@ -180,6 +178,7 @@ int main(int, char **)
           0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // bottom-right
          -0.5f, -0.5f, 1.0f, 1.0f, 0.0f  // bottom-left
      };
+     glfwWindowHint(GLFW_SAMPLES, 4);
      GLFWwindow *window;
 
      if (!glfwInit())
@@ -205,6 +204,8 @@ int main(int, char **)
      Shader skyboxShader("../assets/shaders/skybox.vert", "../assets/shaders/skybox.frag");
      Shader modelShader("../assets/shaders/model.vert", "../assets/shaders/model.frag");
      Shader pointShader("../assets/shaders/points.vert", "../assets/shaders/points.frag");
+     Shader instanceShader("../assets/shaders/instance.vert", "../assets/shaders/instance.frag");
+
      pointShader.LinkGeometry("../assets/shaders/points.geom");
      // textures
      TextureUnit cubeTexture("../container.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
@@ -214,7 +215,9 @@ int main(int, char **)
      glGenTextures(1, &texID);
      glBindTexture(GL_TEXTURE_CUBE_MAP, texID);
      // models
-     Model bag("../assets/backpack/backpack.obj");
+     Model bag("../assets/bag/bag.obj");
+     Model asteroids("../assets/rock/rock.obj");
+     Model planet("../assets/planet/planet.obj");
 
      // cube geometry 
      VAO cubeVAO;
@@ -223,13 +226,6 @@ int main(int, char **)
      cubeVAO.LinkAttrib(cubeVBO, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
      cubeVAO.LinkAttrib(cubeVBO, 1, 3, GL_FLOAT, 6 * sizeof(float), (void *)(3 * sizeof(float)));
      cubeVAO.Unbind();
-     // plane geometry
-     VAO planeVAO;
-     VBO planeVBO(planeVertices, sizeof(planeVertices));
-     planeVAO.Bind();
-     planeVAO.LinkAttrib(planeVBO, 0, 3, GL_FLOAT, 5 * sizeof(float), (void*)0);
-     planeVAO.LinkAttrib(planeVBO, 1, 2, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-     planeVAO.Unbind();
      // quad geometry
      VAO quadVAO;
      VBO quadVBO(quadVertices, sizeof(quadVertices));
@@ -250,37 +246,105 @@ int main(int, char **)
      pointsVAO.LinkAttrib(pointsVBO, 0, 2, GL_FLOAT, 5 * sizeof(float), (void*)0);
      pointsVAO.LinkAttrib(pointsVBO, 1, 3, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
      pointsVAO.Unbind();
+     // create transformation matrices
+     unsigned int amount = 1000;
+     glm::mat4* modelMatrices;
+     modelMatrices = new glm::mat4[amount];
+     srand(static_cast<unsigned int>(glfwGetTime())); // initialize random seed
+     float radius = 100.0f;
+     float offset = 25.0f;
+     for(unsigned int i = 0; i < amount; i++)
+     {
+          glm::mat4 model = glm::mat4(1.0f);
+          // displace along circle with 'radius' in range [-offset, offset]
+          float angle = (float)i / (float)amount * 360.0f;
+          float displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+          float x = sin(angle) * radius + displacement;
+          displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+          float y = displacement * 0.4f;
+          displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+          float z = cos(angle) * radius + displacement;
+          model = glm::translate(model, glm::vec3(x, y, z));
+
+          // scaling
+          float scale = static_cast<float>((rand() % 20) / 100.0 + 0.05);
+          model = glm::scale(model, glm::vec3(scale));
+
+          // rotation
+          float rotAngle = static_cast<float>((rand() % 360));
+          model = glm::rotate(model, rotAngle, glm::vec3(0.4f, 0.6f, 0.8f));
+
+          // add to the list of matrices that we have
+          modelMatrices[i] = model;
+     }
+
+     VBO buffer(&modelMatrices[0][0][0], amount * sizeof(glm::mat4));
+
+     for(unsigned int i = 0; i < asteroids.meshes.size(); i++)
+     {
+        unsigned int VAO = asteroids.meshes[i].VAO;
+        glBindVertexArray(VAO);
+        // set attribute pointers for matrix (4 times vec4)
+        glEnableVertexAttribArray(3);
+        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
+        glEnableVertexAttribArray(4);
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4)));
+        glEnableVertexAttribArray(5);
+        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
+        glEnableVertexAttribArray(6);
+        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
+
+        glVertexAttribDivisor(3, 1);
+        glVertexAttribDivisor(4, 1);
+        glVertexAttribDivisor(5, 1);
+        glVertexAttribDivisor(6, 1);
+
+        glBindVertexArray(0);
+     }
 
      // frame buffer
      unsigned int fbo;
      glGenFramebuffers(1, &fbo);
      glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-
      // texture for frame buffer
      unsigned int texture;
      glGenTextures(1, &texture);
-     glBindTexture(GL_TEXTURE_2D, texture);
-     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 800, 800, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
-     glBindTexture(GL_TEXTURE_2D, 0); 
+     glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, texture);
+     glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGB, width, height, GL_TRUE);
+     glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+     glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, texture, 0);
+     glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0); 
 
      // render buffer
      unsigned int rbo;
      glGenRenderbuffers(1, &rbo);
      glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 800);
+     glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8, width, height);
      glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
      glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
      if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) 
           std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
      glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    // configure second post-processing framebuffer
+     unsigned int intermediateFBO;
+     glGenFramebuffers(1, &intermediateFBO);
+     glBindFramebuffer(GL_FRAMEBUFFER, intermediateFBO);
+    // create a color attachment texture
+     unsigned int screenTexture;
+     glGenTextures(1, &screenTexture);
+     glBindTexture(GL_TEXTURE_2D, screenTexture);
+     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, screenTexture, 0);
+     glBindFramebuffer(GL_FRAMEBUFFER, 0);
      // camera object
      Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
      // Setting up the camera's view and projection matrices
-     camera.Matrix(45.0f, 0.1f, 100.0f);
+     camera.Matrix(45.0f, 0.1f, 200.0f);
      // uniform buffer object
      unsigned int ubo;
      glGenBuffers(1, &ubo);
@@ -295,43 +359,13 @@ int main(int, char **)
      glUniformBlockBinding(mainShader.ID, mainS_index, 0);
 
      glEnable(GL_DEPTH_TEST); // Allows for depth comparison and updates the depth buffer
-    // glEnable(GL_BLEND); // enable alpha blending
-    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+     glEnable(GL_MULTISAMPLE);
 
      glm::vec3 lightPos(0.5f, 0.5f, 0.0f);
-     float radius = 3.0f;
 
      float deltaTime = 0.0f;
      float lastFrame = 0.0f;
      
-     // cubemap textures
-     std::vector<std::string> cubemaps = {
-          "../assets/skybox/left.jpg",
-          "../assets/skybox/right.jpg",
-          "../assets/skybox/bottom.jpg",
-          "../assets/skybox/top.jpg",
-          "../assets/skybox/back.jpg",
-          "../assets/skybox/front.jpg"
-     };
-
-     std::vector<std::string> stylizedMaps = {
-          "../assets/stylizedSkybox/nx.png",
-          "../assets/stylizedSkybox/px.png",
-           "../assets/stylizedSkybox/ny.png",
-           "../assets/stylizedSkybox/py.png",
-          "../assets/stylizedSkybox/nz.png",
-          "../assets/stylizedSkybox/pz.png"
-     };
-
-     std::vector<std::string> yokohamaMaps = {
-          "../assets/Yokohama3/negx.jpg",
-          "../assets/Yokohama3/posx.jpg",
-          "../assets/Yokohama3/negy.jpg",
-          "../assets/Yokohama3/posy.jpg",
-          "../assets/Yokohama3/negz.jpg",
-          "../assets/Yokohama3/posz.jpg"
-     };
-     unsigned int cubemapTexture = LoadCubeMap(yokohamaMaps);
 
      IMGUI_CHECKVERSION();
      ImGui::CreateContext();
@@ -363,69 +397,28 @@ int main(int, char **)
 
            if (!io.WantCaptureMouse)
                camera.Inputs(window);
-          camera.Matrix(45.0f, 0.1f, 100.0f);
 
-          glm::mat4 model = glm::mat4(1.0f);
-          glm::mat4 view = glm::mat4(camera.GetViewMatrix());
-          glm::mat4 proj =  glm::mat4(camera.GetProjMatrix());
-          modelShader.Activate();
-
-          modelShader.SetToMat4("projection", proj); 
-          modelShader.SetToMat4("view", view);
-          modelShader.SetToMat4("model", model);
-          bag.Draw(modelShader);
-
-          pointShader.Activate();
-          pointShader.SetToMat4("projection", proj);
-          pointShader.SetToMat4("view", view);
-          pointShader.SetToMat4("model", model);
-          bag.Draw(pointShader);
-
+          camera.Matrix(45.0f, 0.1f, 200.0f);
 
           // filling in more data for the uniform buffer object
-          /*glBindBuffer(GL_UNIFORM_BUFFER, ubo);
+          glBindBuffer(GL_UNIFORM_BUFFER, ubo);
           glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(camera.GetViewMatrix()));
           glBindBuffer(GL_UNIFORM_BUFFER, 0);
-          
+
           // Geometry
           // Some uniforms 
           mainShader.Activate();
-          mainShader.SetToVec3("cameraPos", &camera.Position[0]);
           // Cubes
           // First cube
           cubeVAO.Bind();
-          glActiveTexture(GL_TEXTURE0);
-          glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
           glm::mat4 model = glm::mat4(1.0f);
           model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
           mainShader.SetToMat4("model", model);
           glDrawArrays(GL_TRIANGLES, 0, 36);
-          // Second cube
-          model = glm::mat4(1.0f);
-          model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
-          mainShader.SetToMat4("model", model);
-          glDrawArrays(GL_TRIANGLES, 0, 36);
-          cubeVAO.Unbind();
-          // Duffle bag model
-          model = glm::mat4(1.0f);
-          model = glm::translate(model, glm::vec3(2.0f, 0.0f, 2.0f));
-          model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-          mainShader.SetToMat4("model", model);
-          bag.Draw(mainShader);
 
-          // Sky Box
-          glDepthFunc(GL_LEQUAL);
-          skyboxShader.Activate();
-          glm::mat4 skyboxView = glm::mat4(glm::mat3(camera.GetViewMatrix()));
-          glm::mat4 skyboxProj = camera.GetProjMatrix();
-          skyboxShader.SetToMat4("projection", skyboxProj);
-          skyboxShader.SetToMat4("view", skyboxView);
-          skyboxVAO.Bind();
-          glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-          glDrawArrays(GL_TRIANGLES, 0, 36);
-          glDepthFunc(GL_LESS);
-          skyboxVAO.Unbind();*/
-
+          glBindFramebuffer(GL_READ_FRAMEBUFFER, fbo);
+          glBindFramebuffer(GL_DRAW_FRAMEBUFFER, intermediateFBO);
+          glBlitFramebuffer(0, 0, width, height, 0, 0, height, width, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
           glBindFramebuffer(GL_FRAMEBUFFER, 0);
           glDisable(GL_DEPTH_TEST);
@@ -459,8 +452,6 @@ int main(int, char **)
 
      cubeVAO.Delete();
      cubeVBO.Delete();
-     planeVAO.Delete();
-     planeVBO.Delete();
      quadVAO.Delete();
      quadVBO.Delete();
      pointsVAO.Delete();
