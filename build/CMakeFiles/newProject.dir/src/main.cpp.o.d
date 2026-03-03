@@ -456,7 +456,6 @@ CMakeFiles/newProject.dir/src/main.cpp.o: \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtx/../gtx/../gtx/norm.inl \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtx/../gtx/quaternion.inl \
  /home/ayinde-abrams/Documents/my_project/src/../headers/../include/glm/gtx/vector_angle.inl \
- /home/ayinde-abrams/Documents/my_project/src/../headers/uniform.h \
  /home/ayinde-abrams/Documents/my_project/src/../headers/model.h \
  /usr/include/assimp/scene.h /usr/include/assimp/types.h \
  /usr/include/assimp/defs.h /usr/include/assimp/config.h \
@@ -480,7 +479,4 @@ CMakeFiles/newProject.dir/src/main.cpp.o: \
  /home/ayinde-abrams/Documents/my_project/src/../headers/mesh.h \
  /home/ayinde-abrams/Documents/my_project/src/../headers/VAO.h \
  /home/ayinde-abrams/Documents/my_project/src/../headers/EBO.h \
- /home/ayinde-abrams/Documents/my_project/src/../include/stb/stb_image.h \
- /usr/include/c++/13/map /usr/include/c++/13/bits/stl_tree.h \
- /usr/include/c++/13/bits/stl_map.h \
- /usr/include/c++/13/bits/stl_multimap.h
+ /home/ayinde-abrams/Documents/my_project/src/../include/stb/stb_image.h

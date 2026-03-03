@@ -1,90 +1,94 @@
 #version 330 core
 out vec4 FragColor;
 
-in vec3 Normal;
 in vec3 FragPos;
 in vec2 TexCoords;
+in vec3 TangentLightPos;
+in vec3 TangentViewPos;
+in vec3 TangentFragPos;
+
 struct Material {
+    float shininess;
     sampler2D texture_diffuse1;
     sampler2D texture_specular1;
     sampler2D texture_normal1;
-    sampler2D texture_height1;
-    float shininess;
-
+    sampler2D texture_depth1;
 };
 uniform Material u_mat;
 
-struct DirLight {
-    vec3 direction;
+uniform float heightScale;
 
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
-};
-uniform DirLight dirLight;
-
-struct PointLight {
-    vec3 position;
-
-    float constant;
-    float linear;
-    float quadratic;
-
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
-};
-uniform PointLight pointLight;
-
-uniform vec3 u_viewPos;
-
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 fragPos);
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
+vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir);
 
 
 void main()
 {
-    vec3 norm = normalize(Normal);
-    vec3 viewDir = normalize(u_viewPos - FragPos);
-    vec3 result = CalcDirLight(dirLight, norm, viewDir);
+    // offset texture coordinates with Parallax Mapping
+    vec3 viewDir = normalize(TangentViewPos - TangentFragPos);
+    vec2 texCoords = ParallaxMapping(TexCoords, viewDir);
 
-    result += CalcPointLight(pointLight, norm, viewDir, FragPos);
+    if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0)
+        discard;
 
-    //FragColor = vec4(result, 1.0);
-    FragColor = texture(u_mat.texture_diffuse1, TexCoords);
+    // obtain normal from normal map in range [0, 1]
+    vec3 norm = texture(u_mat.texture_normal1, texCoords).rgb;
+    // transform normal vector to range [-1, 1]
+    norm = normalize(norm * 2.0 - 1.0); // normal in tangent space
+
+    // texture color
+    vec3 color = texture(u_mat.texture_diffuse1, texCoords).rgb;
+    // ambient
+    vec3 ambient = 0.1 * color;
+    // diffusement
+    vec3 lightDir = normalize(TangentLightPos - TangentFragPos);
+    float diff = max(dot(lightDir, norm), 0.0);
+    vec3 diffuse = diff * color;
+    // specular
+    vec3 halfwayDir = normalize(lightDir + viewDir);
+    float spec = pow(max(dot(norm, halfwayDir), 0.0), 32.0);
+    vec3 specular = vec3(0.2) * spec;
+
+    FragColor = vec4(ambient + diffuse + specular, 1.0);
 }
 
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir) {
-    vec3 lightDir = normalize(-light.direction);
+vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir) 
+{
+    // number of depth layers
+    const float minLayers = 8.0;
+    const float maxLayers = 32.0;
+    float numLayers = mix(maxLayers, minLayers, max(dot(vec3(0.0, 0.0, 1.0), viewDir), 0.0));
+    // calculate the size of each layer
+    float layerDepth = 1.0 / numLayers;
+    // depth of current layer
+    float currentLayerDepth = 0.0;
+    // the amount to shift the texture coordinates per layer (from vector P)
+    vec2 P = viewDir.xy * heightScale;
+    vec2 deltaTexCoords = P / numLayers;
 
-    float diff = max(dot(normal, lightDir), 0.0);
-    
-    vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), u_mat.shininess);
+    // initial values
+    vec2 currentTexCoords = texCoords;
+    float currentDepthMapValue = texture(u_mat.texture_depth1, currentTexCoords).r;
 
-    vec3 ambient = light.ambient * vec3(texture(u_mat.texture_diffuse1, TexCoords));
-    vec3 diffuse = light.diffuse * diff * vec3(texture(u_mat.texture_diffuse1, TexCoords));
-    vec3 specular = light.specular * spec * vec3(texture(u_mat.texture_specular1, TexCoords));
-    return (ambient + diffuse + specular);
-}
+    while(currentLayerDepth < currentDepthMapValue) 
+    {
+        // shift texture coordinates along direction of P
+        currentTexCoords -= deltaTexCoords;
+        // get depthmap value at current texture coords
+        currentDepthMapValue = texture(u_mat.texture_depth1, currentTexCoords).r;
+        // get depth of next layer
+        currentLayerDepth += layerDepth;
+    }
 
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 fragPos) {
-    vec3 lightDir = normalize(light.position - fragPos);
-    float diff = max(dot(normal, lightDir), 0.0);
+    // texture coords before collision
+    vec2 prevTexCoords = currentTexCoords + deltaTexCoords;
 
-    vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), u_mat.shininess);
+    // depth after and before collision for linear interpolation
+    float afterDepth = currentDepthMapValue - currentLayerDepth;
+    float beforeDepth = texture(u_mat.texture_depth1, prevTexCoords).r - currentLayerDepth + layerDepth;
 
-    // attenuation
-    float distance = length(light.position - fragPos);
-    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
-    
-    vec3 ambient = light.ambient * vec3(texture(u_mat.texture_diffuse1, TexCoords));
-    vec3 diffuse = light.diffuse * diff * vec3(texture(u_mat.texture_diffuse1, TexCoords));
-    vec3 specular = light.specular * spec * vec3(texture(u_mat.texture_specular1, TexCoords));
-    ambient *= attenuation;
-    diffuse *= attenuation;
-    specular *= attenuation;
-    return (ambient + diffuse + specular);
+    // lerping of tex coords
+    float weight = afterDepth / (afterDepth - beforeDepth);
+    vec2 finalTexCoords = prevTexCoords * weight + currentTexCoords * (1.0 - weight);
 
+    return finalTexCoords;
 }

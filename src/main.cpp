@@ -13,48 +13,15 @@
 #include "../headers/VAO.h"
 #include "../headers/texture.h"
 #include "../headers/camera.h"
-#include "../headers/uniform.h"
 #include "../headers/model.h"
 
 #include "../include/stb/stb_image.h"
 #include "../include/glm/glm.hpp"
 #include "../include/glm/gtc/matrix_transform.hpp"
 #include "../include/glm/gtc/type_ptr.hpp"
-#include <map>
 
 const unsigned int width = 800;
 const unsigned int height = 800;
-
-unsigned int LoadCubeMap(std::vector<std::string> faces)
-{
-     unsigned int textureID;
-     glGenTextures(1, &textureID);
-     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-
-     int width, height, nrChannels;
-     for(unsigned int i = 0; i < faces.size(); i++)
-     {
-          unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
-          if(data)
-          {
-               glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-               stbi_image_free(data);
-          }
-          else
-          {
-               std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
-               stbi_image_free(data);
-          }
-     }
-
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-    return textureID;
-}
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
@@ -63,61 +30,7 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 
 int main(int, char **)
 {
-     // set up vertex data (and buffer(s)) and configure vertex attributes
-     // ------------------------------------------------------------------
-     float cubeVertices[] = {
-   -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
 
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-
-     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
-     };
-     float squareVertices[] = {
-     // positions     // colors
-          -0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
-          0.05f, -0.05f,  0.0f, 1.0f, 0.0f,
-          -0.05f, -0.05f,  0.0f, 0.0f, 1.0f,
-
-          -0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
-          0.05f, -0.05f,  0.0f, 1.0f, 0.0f,   
-          0.05f,  0.05f,  0.0f, 1.0f, 1.0f		    		
-     };  
      float quadVertices[] = {
           // positions     // texCoords
           -1.0f,  1.0f,  0.0f, 1.0f,
@@ -128,58 +41,8 @@ int main(int, char **)
           1.0f, -1.0f,  1.0f, 0.0f,
           1.0f,  1.0f,  1.0f, 1.0f
      };
-     float skyboxVertices[] = {
-    // positions          
-    -1.0f,  1.0f, -1.0f,
-    -1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-
-    -1.0f, -1.0f,  1.0f,
-    -1.0f, -1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f,  1.0f,
-    -1.0f, -1.0f,  1.0f,
-
-     1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-
-    -1.0f, -1.0f,  1.0f,
-    -1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f, -1.0f,  1.0f,
-    -1.0f, -1.0f,  1.0f,
-
-    -1.0f,  1.0f, -1.0f,
-     1.0f,  1.0f, -1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-    -1.0f,  1.0f,  1.0f,
-    -1.0f,  1.0f, -1.0f,
-
-    -1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f,  1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f,  1.0f,
-     1.0f, -1.0f,  1.0f
-};
-     float points[] = {
-         -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, // top-left
-          0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // top-right
-          0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // bottom-right
-         -0.5f, -0.5f, 1.0f, 1.0f, 0.0f  // bottom-left
-     };
-     glfwWindowHint(GLFW_SAMPLES, 4);
      GLFWwindow *window;
+     glfwWindowHint(GLFW_SAMPLES, 4);
 
      if (!glfwInit())
      {
@@ -198,34 +61,27 @@ int main(int, char **)
           glfwTerminate();
           return -1;
      }
-     // shaders
-     Shader mainShader("../assets/shaders/lightSource.vert", "../assets/shaders/lightSource.frag"); // Shader program for light sources
-     Shader simpleShader("../assets/shaders/simple.vert", "../assets/shaders/simple.frag");
-     Shader skyboxShader("../assets/shaders/skybox.vert", "../assets/shaders/skybox.frag");
+     // Parses the fragment and vertex shader files and wraps them into a shader program
+     // The files are compiled to an intermediary language then translated into specific instructions for the GPU
+     Shader defaultShader("../assets/shaders/default.vert", "../assets/shaders/default.frag");
      Shader modelShader("../assets/shaders/model.vert", "../assets/shaders/model.frag");
-     Shader pointShader("../assets/shaders/points.vert", "../assets/shaders/points.frag");
-     Shader instanceShader("../assets/shaders/instance.vert", "../assets/shaders/instance.frag");
-
-     pointShader.LinkGeometry("../assets/shaders/points.geom");
-     // textures
-     TextureUnit cubeTexture("../container.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-     TextureUnit floorTexture("../marble.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-     // cubemap texture
-     unsigned int texID;
-     glGenTextures(1, &texID);
-     glBindTexture(GL_TEXTURE_CUBE_MAP, texID);
+     Shader depthShader("../assets/shaders/depth.vert", "../assets/shaders/depth.frag");
+     depthShader.LinkGeometry("../assets/shaders/depth.geom");
+     Shader framebufferShader("../assets/shaders/framebuffer.vert", "../assets/shaders/framebuffer.frag");
+     Shader shadowShader("../assets/shaders/shadow.vert", "../assets/shaders/shadow.frag");
      // models
-     Model bag("../assets/bag/bag.obj");
-     Model asteroids("../assets/rock/rock.obj");
-     Model planet("../assets/planet/planet.obj");
-
-     // cube geometry 
-     VAO cubeVAO;
-     VBO cubeVBO(cubeVertices, sizeof(cubeVertices));
-     cubeVAO.Bind();
-     cubeVAO.LinkAttrib(cubeVBO, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
-     cubeVAO.LinkAttrib(cubeVBO, 1, 3, GL_FLOAT, 6 * sizeof(float), (void *)(3 * sizeof(float)));
-     cubeVAO.Unbind();
+     Model cube("../assets/cube.obj");
+     Model plane("../assets/plane.obj");
+     Model torus("../assets/torus.obj");
+     Model sphere("../assets/sphere/source/sphere.obj");
+     Model duffleBag("../assets/bag/bag.obj");
+     // textures
+     TextureUnit diffuse("../assets/textures/wood.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+     diffuse.texUnit(modelShader, "u_mat.texture_diffuse1", 0);
+     TextureUnit normalMap("../assets/textures/toy_box_normal.png", GL_TEXTURE_2D, GL_TEXTURE1, GL_RGBA, GL_UNSIGNED_BYTE);
+     normalMap.texUnit(modelShader, "u_mat.texture_normal1", 1);
+     TextureUnit heightMap("../assets/textures/toy_box_disp.png", GL_TEXTURE_2D, GL_TEXTURE2, GL_RGBA, GL_UNSIGNED_BYTE);
+     heightMap.texUnit(modelShader, "u_mat.texture_depth1", 2);
      // quad geometry
      VAO quadVAO;
      VBO quadVBO(quadVertices, sizeof(quadVertices));
@@ -233,140 +89,156 @@ int main(int, char **)
      quadVAO.LinkAttrib(quadVBO, 0, 2, GL_FLOAT, 4 * sizeof(float), (void*)0);
      quadVAO.LinkAttrib(quadVBO, 1, 2, GL_FLOAT, 4 * sizeof(float), (void*)(2 * sizeof(float)));
      quadVAO.Unbind();
-     // skybox geometry
-     VAO skyboxVAO;
-     VBO skyboxVBO(skyboxVertices, sizeof(skyboxVertices));
-     skyboxVAO.Bind();
-     skyboxVAO.LinkAttrib(skyboxVBO, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
-     skyboxVAO.Unbind();
-     // points geometry
-     VAO pointsVAO;
-     VBO pointsVBO(points, sizeof(points));
-     pointsVAO.Bind();
-     pointsVAO.LinkAttrib(pointsVBO, 0, 2, GL_FLOAT, 5 * sizeof(float), (void*)0);
-     pointsVAO.LinkAttrib(pointsVBO, 1, 3, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-     pointsVAO.Unbind();
-     // create transformation matrices
-     unsigned int amount = 1000;
-     glm::mat4* modelMatrices;
-     modelMatrices = new glm::mat4[amount];
-     srand(static_cast<unsigned int>(glfwGetTime())); // initialize random seed
-     float radius = 100.0f;
-     float offset = 25.0f;
-     for(unsigned int i = 0; i < amount; i++)
-     {
-          glm::mat4 model = glm::mat4(1.0f);
-          // displace along circle with 'radius' in range [-offset, offset]
-          float angle = (float)i / (float)amount * 360.0f;
-          float displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
-          float x = sin(angle) * radius + displacement;
-          displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
-          float y = displacement * 0.4f;
-          displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
-          float z = cos(angle) * radius + displacement;
-          model = glm::translate(model, glm::vec3(x, y, z));
+     // plane geometry
+     // positions
+        glm::vec3 pos1(-1.0f,  1.0f, 0.0f);
+        glm::vec3 pos2(-1.0f, -1.0f, 0.0f);
+        glm::vec3 pos3( 1.0f, -1.0f, 0.0f);
+        glm::vec3 pos4( 1.0f,  1.0f, 0.0f);
+        // texture coordinates
+        glm::vec2 uv1(0.0f, 1.0f);
+        glm::vec2 uv2(0.0f, 0.0f);
+        glm::vec2 uv3(1.0f, 0.0f);  
+        glm::vec2 uv4(1.0f, 1.0f);
+        // normal vector
+        glm::vec3 nm(0.0f, 0.0f, 1.0f);
 
-          // scaling
-          float scale = static_cast<float>((rand() % 20) / 100.0 + 0.05);
-          model = glm::scale(model, glm::vec3(scale));
+        // calculate tangent/bitangent vectors of both triangles
+        glm::vec3 tangent1, bitangent1;
+        glm::vec3 tangent2, bitangent2;
+        // triangle 1
+        // ----------
+        glm::vec3 edge1 = pos2 - pos1;
+        glm::vec3 edge2 = pos3 - pos1;
+        glm::vec2 deltaUV1 = uv2 - uv1;
+        glm::vec2 deltaUV2 = uv3 - uv1;
 
-          // rotation
-          float rotAngle = static_cast<float>((rand() % 360));
-          model = glm::rotate(model, rotAngle, glm::vec3(0.4f, 0.6f, 0.8f));
+        float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
 
-          // add to the list of matrices that we have
-          modelMatrices[i] = model;
-     }
+        tangent1.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
+        tangent1.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
+        tangent1.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
 
-     VBO buffer(&modelMatrices[0][0][0], amount * sizeof(glm::mat4));
+        bitangent1.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
+        bitangent1.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
+        bitangent1.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
 
-     for(unsigned int i = 0; i < asteroids.meshes.size(); i++)
-     {
-        unsigned int VAO = asteroids.meshes[i].VAO;
-        glBindVertexArray(VAO);
-        // set attribute pointers for matrix (4 times vec4)
-        glEnableVertexAttribArray(3);
-        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
-        glEnableVertexAttribArray(4);
-        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4)));
-        glEnableVertexAttribArray(5);
-        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
-        glEnableVertexAttribArray(6);
-        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
+        // triangle 2
+        // ----------
+        edge1 = pos3 - pos1;
+        edge2 = pos4 - pos1;
+        deltaUV1 = uv3 - uv1;
+        deltaUV2 = uv4 - uv1;
 
-        glVertexAttribDivisor(3, 1);
-        glVertexAttribDivisor(4, 1);
-        glVertexAttribDivisor(5, 1);
-        glVertexAttribDivisor(6, 1);
+        f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
 
-        glBindVertexArray(0);
-     }
+        tangent2.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
+        tangent2.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
+        tangent2.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
 
-     // frame buffer
-     unsigned int fbo;
-     glGenFramebuffers(1, &fbo);
-     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-     // texture for frame buffer
-     unsigned int texture;
-     glGenTextures(1, &texture);
-     glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, texture);
-     glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGB, width, height, GL_TRUE);
-     glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-     glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, texture, 0);
-     glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0); 
 
-     // render buffer
-     unsigned int rbo;
-     glGenRenderbuffers(1, &rbo);
-     glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-     glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8, width, height);
-     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
-     glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        bitangent2.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
+        bitangent2.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
+        bitangent2.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
 
-     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) 
-          std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+
+        float planeVertices[] = {
+            // positions            // normal         // texcoords  // tangent                          // bitangent
+            pos1.x, pos1.y, pos1.z, nm.x, nm.y, nm.z, uv1.x, uv1.y, tangent1.x, tangent1.y, tangent1.z, bitangent1.x, bitangent1.y, bitangent1.z,
+            pos2.x, pos2.y, pos2.z, nm.x, nm.y, nm.z, uv2.x, uv2.y, tangent1.x, tangent1.y, tangent1.z, bitangent1.x, bitangent1.y, bitangent1.z,
+            pos3.x, pos3.y, pos3.z, nm.x, nm.y, nm.z, uv3.x, uv3.y, tangent1.x, tangent1.y, tangent1.z, bitangent1.x, bitangent1.y, bitangent1.z,
+
+            pos1.x, pos1.y, pos1.z, nm.x, nm.y, nm.z, uv1.x, uv1.y, tangent2.x, tangent2.y, tangent2.z, bitangent2.x, bitangent2.y, bitangent2.z,
+            pos3.x, pos3.y, pos3.z, nm.x, nm.y, nm.z, uv3.x, uv3.y, tangent2.x, tangent2.y, tangent2.z, bitangent2.x, bitangent2.y, bitangent2.z,
+            pos4.x, pos4.y, pos4.z, nm.x, nm.y, nm.z, uv4.x, uv4.y, tangent2.x, tangent2.y, tangent2.z, bitangent2.x, bitangent2.y, bitangent2.z
+        };
+
+        VAO planeVAO;
+        VBO planeVBO(planeVertices, sizeof(planeVertices));
+        planeVAO.Bind();
+        planeVAO.LinkAttrib(planeVBO, 0, 3, GL_FLOAT, 14 * sizeof(float), (void*)0); // positions
+        planeVAO.LinkAttrib(planeVBO, 1, 3, GL_FLOAT, 14 * sizeof(float), (void*)(3 * sizeof(float))); // normals
+        planeVAO.LinkAttrib(planeVBO, 2, 2, GL_FLOAT, 14 * sizeof(float), (void*)(6 * sizeof(float))); // texcoords
+        planeVAO.LinkAttrib(planeVBO, 3, 3, GL_FLOAT, 14 * sizeof(float), (void*)(8 * sizeof(float))); // tangent
+        planeVAO.LinkAttrib(planeVBO, 4, 3, GL_FLOAT, 14 * sizeof(float), (void*)(11 * sizeof(float))); // bitangent
+
+     //-----------IMAGE VARIABLES-----------
+     unsigned int depthMapFBO;
+     glGenFramebuffers(1, &depthMapFBO);
+     // 2D texture for framebuffer depth buffer
+     const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
+     //---DEPTH FRAME BUFFER---
+     unsigned int depthCubemap;
+     glGenTextures(1, &depthCubemap);
+     glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
+     for(unsigned int i = 0; i < 6; ++i)
+          glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+     glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+     glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap, 0);
+     glDrawBuffer(GL_NONE);
+     glReadBuffer(GL_NONE);
      glBindFramebuffer(GL_FRAMEBUFFER, 0);
+     //---END OF DEPTH FRAME BUFFER---
 
-    // configure second post-processing framebuffer
-     unsigned int intermediateFBO;
-     glGenFramebuffers(1, &intermediateFBO);
-     glBindFramebuffer(GL_FRAMEBUFFER, intermediateFBO);
-    // create a color attachment texture
-     unsigned int screenTexture;
-     glGenTextures(1, &screenTexture);
-     glBindTexture(GL_TEXTURE_2D, screenTexture);
-     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, screenTexture, 0);
-     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-     // camera object
-     Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
-     // Setting up the camera's view and projection matrices
-     camera.Matrix(45.0f, 0.1f, 200.0f);
-     // uniform buffer object
-     unsigned int ubo;
-     glGenBuffers(1, &ubo);
-     glBindBuffer(GL_UNIFORM_BUFFER, ubo);
-     glBufferData(GL_UNIFORM_BUFFER, 128, NULL, GL_STATIC_DRAW);
-     glBindBufferRange(GL_UNIFORM_BUFFER, 0, ubo, 0, 2 * sizeof(glm::mat4));
-     // filling the buffer with data
-     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(camera.GetProjMatrix()));
-     glBindBuffer(GL_UNIFORM_BUFFER, 0);
-     // setting uniform block points
-     unsigned int mainS_index = glGetUniformBlockIndex(mainShader.ID, "Matrices");
-     glUniformBlockBinding(mainShader.ID, mainS_index, 0);
+     //---HDR FRAME BUFFER
+     unsigned int hdrFBO;
+     glGenFramebuffers(1, &hdrFBO);
+     glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO);
+     unsigned int colorBuffers[2];
+     glGenTextures(2, colorBuffers);
+     for(unsigned int i = 0; i < 2; i++) {
+          glBindTexture(GL_TEXTURE_2D, colorBuffers[i]);
+          glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+          glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, colorBuffers[i], 0);
+     }
+     unsigned int attachments[2] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
+     glDrawBuffers(2, attachments);
+     //---END OF HDR FRAME BUFFER---
+
+     //---PING PONG FRAME BUFFERs---
+     unsigned int pingpongFBO[2];
+     unsigned int pingpongColorBuffers[2];
+     glGenFramebuffers(2, pingpongFBO);
+     glGenTextures(2, pingpongColorBuffers);
+     for(unsigned int i = 0; i < 2; i++) 
+     {
+          glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[i]);
+          glBindTexture(GL_TEXTURE_2D, pingpongColorBuffers[i]);
+          glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+          glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, pingpongColorBuffers[i], 0);
+     }
+     //---END OF PING PONG FRAME BUFFERs---
+      //-----------END OF IMAGE VARIABLES-----------
 
      glEnable(GL_DEPTH_TEST); // Allows for depth comparison and updates the depth buffer
-     glEnable(GL_MULTISAMPLE);
+     glEnable(GL_CULL_FACE);
+    
 
-     glm::vec3 lightPos(0.5f, 0.5f, 0.0f);
+     // -----------RENDER LOOP VARIABLES-----------
+     Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
+     glm::vec3 lightPos(0.1f, 8.0f, 5.0f);
+     glm::vec3 lightColor(1.0f);
+     glm::vec3 dirLightPos(0);
+     float radius = 3.0f;
 
      float deltaTime = 0.0f;
      float lastFrame = 0.0f;
-     
-
+     float heightScale = 0.1f;
+     //-----------END OF RENDER LOOP VARIABLES-----------
      IMGUI_CHECKVERSION();
      ImGui::CreateContext();
      ImGuiIO &io = ImGui::GetIO();
@@ -374,19 +246,15 @@ int main(int, char **)
      ImGui::StyleColorsDark();
      ImGui_ImplGlfw_InitForOpenGL(window, true);
      ImGui_ImplOpenGL3_Init("#version 330");
-
+     
      glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
      // Main Render Loop
      while (!glfwWindowShouldClose(window))
      {
-          glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-          glEnable(GL_DEPTH_TEST);
-
           glClearColor(0.0f, 0.0f, 0.15f, 1.0f);
           glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-          
-          
+
           ImGui_ImplOpenGL3_NewFrame();
           ImGui_ImplGlfw_NewFrame();
           ImGui::NewFrame();
@@ -397,48 +265,161 @@ int main(int, char **)
 
            if (!io.WantCaptureMouse)
                camera.Inputs(window);
-
-          camera.Matrix(45.0f, 0.1f, 200.0f);
-
-          // filling in more data for the uniform buffer object
-          glBindBuffer(GL_UNIFORM_BUFFER, ubo);
-          glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(camera.GetViewMatrix()));
-          glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-          // Geometry
-          // Some uniforms 
-          mainShader.Activate();
-          // Cubes
-          // First cube
-          cubeVAO.Bind();
-          glm::mat4 model = glm::mat4(1.0f);
-          model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
-          mainShader.SetToMat4("model", model);
-          glDrawArrays(GL_TRIANGLES, 0, 36);
-
-          glBindFramebuffer(GL_READ_FRAMEBUFFER, fbo);
-          glBindFramebuffer(GL_DRAW_FRAMEBUFFER, intermediateFBO);
-          glBlitFramebuffer(0, 0, width, height, 0, 0, height, width, GL_COLOR_BUFFER_BIT, GL_NEAREST);
-
-          glBindFramebuffer(GL_FRAMEBUFFER, 0);
-          glDisable(GL_DEPTH_TEST);
-          glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-          glClear(GL_COLOR_BUFFER_BIT);
-
-          simpleShader.Activate();
-          quadVAO.Bind();
-          glBindTexture(GL_TEXTURE_2D, texture);
-          glDrawArrays(GL_TRIANGLES, 0, 6);
-          quadVAO.Unbind();
           
-          // GUI STUFF
+          camera.Matrix(45, 0.1, 100);
+         
+          //--------------SHADERS & MODEL DRAWING--------------
+
+          // MVP from light's point of view
+          float aspect = (float)SHADOW_WIDTH/(float)SHADOW_HEIGHT;
+          float near = 1.0f;
+          float far = 25.0f;
+          glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), aspect, near, far);
+          std::vector<glm::mat4> shadowTransforms;
+          shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 1.0, 0.0, 0.0), glm::vec3(0.0,-1.0, 0.0)));
+          shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(-1.0, 0.0, 0.0), glm::vec3(0.0,-1.0, 0.0)));
+          shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 0.0, 1.0, 0.0), glm::vec3(0.0, 0.0, 1.0)));
+          shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 0.0,-1.0, 0.0), glm::vec3(0.0, 0.0,-1.0)));
+          shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 0.0, 0.0, 1.0), glm::vec3(0.0,-1.0, 0.0)));
+          shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 0.0, 0.0,-1.0), glm::vec3(0.0,-1.0, 0.0)));
+          glm::mat4 model = glm::mat4(1.0f);
+          
+          depthShader.Activate();
+          // ----------FIRST PASS (DEPTH)----------
+          glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+          glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+          glClear(GL_DEPTH_BUFFER_BIT);
+          glCullFace(GL_BACK);
+          for(unsigned int i = 0; i < 6; ++i)
+               depthShader.SetToMat4(&("shadowMatrices[" + std::to_string(i) + "]")[0], shadowTransforms[i]);
+          depthShader.SetToFloat("far_plane", far);
+          depthShader.SetToVec3("lightPos", &lightPos[0]);
+          // Drawing Models
+          // Plane
+          model = glm::scale(model, glm::vec3(5.0));
+          depthShader.SetToMat4("model", model);
+          plane.Draw(depthShader);
+          // Cube
+          model = glm::mat4(1.0f);
+          model = glm::translate(model, glm::vec3(0.0f, 2.0f, 2.0f));
+          model = glm::scale(model, glm::vec3(0.8));
+          depthShader.SetToMat4("model", model);
+          cube.Draw(depthShader);
+          // Torus
+          model = glm::mat4(1.0f);
+          model = glm::translate(model, glm::vec3(-0.5f, 0.5, -2.0f));
+          depthShader.SetToMat4("model", model);
+          torus.Draw(depthShader);
+          // Sphere
+          model = glm::mat4(1.0f);
+          model = glm::translate(model, glm::vec3(0.0f, 2.0f, -1.0f));
+          depthShader.SetToMat4("model", model);
+          sphere.Draw(depthShader);
+          glBindFramebuffer(GL_FRAMEBUFFER, 0);
+          // Viewport Reset
+          glViewport(0, 0, width, height);
+          glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+          // ----------SECOND PASS (SHADOWS)----------
+          // Vertex Uniforms
+          model = glm::mat4(1.0f);
+          glm::mat4 view = camera.GetViewMatrix();
+          glm::mat4 proj = camera.GetProjMatrix();
+          shadowShader.Activate();
+          shadowShader.SetToMat4("projection", proj);
+          shadowShader.SetToMat4("view", view);
+          // Fragment Uniforms
+          glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
+          glActiveTexture(GL_TEXTURE0);
+          shadowShader.SetToInt("depthMap", 0);
+          shadowShader.SetToVec3("lightPos",&lightPos[0]);
+          shadowShader.SetToVec3("viewPos", &camera.Position[0]);
+          shadowShader.SetToVec3("objColor", &glm::vec3(0.9f)[0]);
+          shadowShader.SetToVec3("lightColor", &lightColor[0]);
+          shadowShader.SetToFloat("far_plane", far);
+          // Drawing Objects Again
+          // Plane
+          model = glm::scale(model, glm::vec3(5.0));
+          shadowShader.SetToMat4("model", model);
+          plane.Draw(shadowShader);
+          // Cube
+          model = glm::mat4(1.0f);
+          model = glm::translate(model, glm::vec3(0.0f, 2.0f, 2.0f));
+          model = glm::scale(model, glm::vec3(0.8));
+          shadowShader.SetToMat4("model", model);
+          cube.Draw(depthShader);
+          // Torus
+          model = glm::mat4(1.0f);
+          model = glm::translate(model, glm::vec3(-0.5f, 0.5, -2.0f));
+          shadowShader.SetToMat4("model", model);
+          torus.Draw(depthShader);
+          // Sphere
+          model = glm::mat4(1.0f);
+          model = glm::translate(model, glm::vec3(0.0f, 2.0f, -1.0f));
+          shadowShader.SetToMat4("model", model);
+          sphere.Draw(depthShader);
+          // Light Position Model
+          defaultShader.Activate();
+          defaultShader.SetToMat4("view", view);
+          defaultShader.SetToMat4("proj", proj);
+          defaultShader.SetToVec3("lightColor", &lightColor[0]);
+          model = glm::mat4(1.0f);
+          model = glm::translate(model, lightPos);
+          model = glm::scale(model, glm::vec3(0.2f));
+          defaultShader.SetToMat4("model", model);
+          sphere.Draw(defaultShader);
+          //------------NORMAL MAPPING------------
+          modelShader.Activate();
+          modelShader.SetToMat4("view", view);
+          modelShader.SetToMat4("proj", proj);
+          modelShader.SetToVec3("lightPos", &lightPos[0]);
+          modelShader.SetToVec3("viewPos", &camera.Position[0]);
+          modelShader.SetToFloat("heightScale", heightScale);
+
+          model = glm::mat4(1.0f);
+          model = glm::translate(model, glm::vec3(7.5f, 5.0f, 0.0f));
+          model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0, 1.0, 0.0));
+          modelShader.SetToMat4("model", model);
+          planeVAO.Bind();
+          glActiveTexture(GL_TEXTURE0);
+          diffuse.Bind();
+          glActiveTexture(GL_TEXTURE1);
+          normalMap.Bind();
+          glActiveTexture(GL_TEXTURE2);
+          heightMap.Bind();
+          glDrawArrays(GL_TRIANGLES, 0, 6);
+          planeVAO.Unbind();
+          glCullFace(GL_FRONT);
+          glBindFramebuffer(GL_FRAMEBUFFER, 0);
+          glViewport(0, 0, width, height);
+          //--------------END OF SHADERS & MODEL DRAWING--------------
+
+          // ---------DEPTH DEBUGGING---------
+          framebufferShader.Activate();
+          /*quadVAO.Bind();
+          glDrawArrays(GL_TRIANGLES, 0, 6);
+          quadVAO.Unbind();*/
+          // ---------END OF DEPTH DEBUGGING---------
+
+          // ---------IMGUI---------
           ImGui::Begin("OpenGL Settings Panel");
           ImGui::Text("Tweaks");
-     
-          ImGui::End();
+          ImGui::DragFloat("Height Scale", &heightScale, 0.05f, 0.0f, 1.0f);
 
+          ImGui::Separator();
+
+          ImGui::Text("Edit Directional Light");
+          ImGui::SliderFloat3("DirLight Pos", &dirLightPos[0], 0.0f, 10.0f);
+          
+          ImGui::Separator();
+
+          ImGui::Text("Edit Point Light");
+          ImGui::SliderFloat3("Light Pos", &lightPos[0], -20.0f, 20.0f);
+          ImGui::SliderFloat3("Light Color", &lightColor[0], 0.0f, 25.0f);
+          ImGui::End();
+          
           ImGui::Render();
           ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+          // ---------END OF IMGUI---------
 
           // Swap back buffer with front buffer
           glfwSwapBuffers(window);
@@ -450,16 +431,11 @@ int main(int, char **)
      ImGui_ImplGlfw_Shutdown();
      ImGui::DestroyContext();
 
-     cubeVAO.Delete();
-     cubeVBO.Delete();
-     quadVAO.Delete();
-     quadVBO.Delete();
-     pointsVAO.Delete();
-     pointsVBO.Delete();
-     glDeleteRenderbuffers(1, &rbo);
-     glDeleteFramebuffers(1, &fbo);
-     glDeleteBuffers(1, &ubo);
-     
+     // ------------OBJECT DELETION------------
+     defaultShader.Delete();
+     depthShader.Delete();
+     shadowShader.Delete();
+
      glfwTerminate();
      return 0;
 }
