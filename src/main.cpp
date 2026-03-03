@@ -63,12 +63,16 @@ int main(int, char **)
      }
      // Parses the fragment and vertex shader files and wraps them into a shader program
      // The files are compiled to an intermediary language then translated into specific instructions for the GPU
-     Shader defaultShader("../assets/shaders/default.vert", "../assets/shaders/default.frag");
+     Shader defaultShader("../assets/shaders/default.vert", "../assets/shaders/default.frag"); // shaderLight
      Shader modelShader("../assets/shaders/model.vert", "../assets/shaders/model.frag");
      Shader depthShader("../assets/shaders/depth.vert", "../assets/shaders/depth.frag");
-     depthShader.LinkGeometry("../assets/shaders/depth.geom");
+     Shader blurShader("../assets/shaders/guassian.vert", "../assets/shaders/guassian.frag"); // shaderBlur
+     Shader bloomShader("../assets/shaders/guassian.vert", "../assets/shaders/bloom.frag"); // shaderBloomFinal
      Shader framebufferShader("../assets/shaders/framebuffer.vert", "../assets/shaders/framebuffer.frag");
-     Shader shadowShader("../assets/shaders/shadow.vert", "../assets/shaders/shadow.frag");
+     Shader shadowShader("../assets/shaders/shadow.vert", "../assets/shaders/shadow.frag"); // shader
+
+     depthShader.LinkGeometry("../assets/shaders/depth.geom");
+     
      // models
      Model cube("../assets/cube.obj");
      Model plane("../assets/plane.obj");
@@ -226,6 +230,7 @@ int main(int, char **)
 
      glEnable(GL_DEPTH_TEST); // Allows for depth comparison and updates the depth buffer
      glEnable(GL_CULL_FACE);
+     glCullFace(GL_BACK);
     
 
      // -----------RENDER LOOP VARIABLES-----------
@@ -234,6 +239,9 @@ int main(int, char **)
      glm::vec3 lightColor(1.0f);
      glm::vec3 dirLightPos(0);
      float radius = 3.0f;
+
+     bool bloom = true;
+     float exposure = 1.0f;
 
      float deltaTime = 0.0f;
      float lastFrame = 0.0f;
@@ -248,6 +256,12 @@ int main(int, char **)
      ImGui_ImplOpenGL3_Init("#version 330");
      
      glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+     blurShader.Activate();
+     blurShader.SetToInt("image", 0);
+     bloomShader.Activate();
+     bloomShader.SetToInt("scene", 0);
+     bloomShader.SetToInt("bloomBlur", 1);
 
      // Main Render Loop
      while (!glfwWindowShouldClose(window))
@@ -315,7 +329,8 @@ int main(int, char **)
           model = glm::translate(model, glm::vec3(0.0f, 2.0f, -1.0f));
           depthShader.SetToMat4("model", model);
           sphere.Draw(depthShader);
-          glBindFramebuffer(GL_FRAMEBUFFER, 0);
+          //----------END OF FIRST PASS----------
+          glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO); // render scene into floating point framebuffer
           // Viewport Reset
           glViewport(0, 0, width, height);
           glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -346,17 +361,17 @@ int main(int, char **)
           model = glm::translate(model, glm::vec3(0.0f, 2.0f, 2.0f));
           model = glm::scale(model, glm::vec3(0.8));
           shadowShader.SetToMat4("model", model);
-          cube.Draw(depthShader);
+          cube.Draw(shadowShader);
           // Torus
           model = glm::mat4(1.0f);
           model = glm::translate(model, glm::vec3(-0.5f, 0.5, -2.0f));
           shadowShader.SetToMat4("model", model);
-          torus.Draw(depthShader);
+          torus.Draw(shadowShader);
           // Sphere
           model = glm::mat4(1.0f);
           model = glm::translate(model, glm::vec3(0.0f, 2.0f, -1.0f));
           shadowShader.SetToMat4("model", model);
-          sphere.Draw(depthShader);
+          sphere.Draw(shadowShader);
           // Light Position Model
           defaultShader.Activate();
           defaultShader.SetToMat4("view", view);
@@ -367,8 +382,9 @@ int main(int, char **)
           model = glm::scale(model, glm::vec3(0.2f));
           defaultShader.SetToMat4("model", model);
           sphere.Draw(defaultShader);
+
           //------------NORMAL MAPPING------------
-          modelShader.Activate();
+          /*modelShader.Activate();
           modelShader.SetToMat4("view", view);
           modelShader.SetToMat4("proj", proj);
           modelShader.SetToVec3("lightPos", &lightPos[0]);
@@ -388,14 +404,45 @@ int main(int, char **)
           heightMap.Bind();
           glDrawArrays(GL_TRIANGLES, 0, 6);
           planeVAO.Unbind();
-          glCullFace(GL_FRONT);
+          */
+          //------------END OF NORMAL MAPPING------------
+
+          // Blur bright fragments with two-pass Guassian Blur
           glBindFramebuffer(GL_FRAMEBUFFER, 0);
-          glViewport(0, 0, width, height);
+          bool horizontal = true, firstIteration = true;
+          unsigned int amount = 10;
+          blurShader.Activate();
+          for(unsigned int i = 0; i < amount; i++) 
+          {
+               glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[horizontal]);
+               blurShader.SetToInt("horizontal", horizontal);
+               glBindTexture(GL_TEXTURE_2D, firstIteration ? colorBuffers[1] : pingpongColorBuffers[!horizontal]);
+               quadVAO.Bind();
+               glDrawArrays(GL_TRIANGLES, 0, 6);
+               quadVAO.Unbind();
+               horizontal = !horizontal;
+               if(firstIteration)
+                    firstIteration = false;
+          }
+          glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+          glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+          bloomShader.Activate();
+          glActiveTexture(GL_TEXTURE0);
+          glBindTexture(GL_TEXTURE_2D, colorBuffers[0]);
+          glActiveTexture(GL_TEXTURE1);
+          glBindTexture(GL_TEXTURE_2D, pingpongColorBuffers[!horizontal]);
+          bloomShader.SetToInt("bloom", bloom);
+          bloomShader.SetToFloat("exposure", exposure);
+          quadVAO.Bind();
+          glDrawArrays(GL_TRIANGLES, 0, 6);
+          quadVAO.Unbind();
+
           //--------------END OF SHADERS & MODEL DRAWING--------------
 
           // ---------DEPTH DEBUGGING---------
-          framebufferShader.Activate();
-          /*quadVAO.Bind();
+          /*framebufferShader.Activate();
+          quadVAO.Bind();
           glDrawArrays(GL_TRIANGLES, 0, 6);
           quadVAO.Unbind();*/
           // ---------END OF DEPTH DEBUGGING---------
